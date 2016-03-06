@@ -1,0 +1,4 @@
+.hisella-messages { position: fixed; bottom: 0; right: 0; z-index: 999999; }
+.hisella-messages-outer { position: relative; }
+#hisella-minimize { background: #3b5998; font-size: 14px; color: #fff; padding: 3px 10px; position: absolute; top: -34px; left: -50px; border: 1px solid #E9EAED; cursor: pointer; }
+@media screen and (max-width:768px){ #hisella-facebook { opacity:0; } .hisella-messages { bottom: -300px; right: -135px; } }
