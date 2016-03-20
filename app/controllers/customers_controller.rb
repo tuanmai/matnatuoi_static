@@ -5,6 +5,11 @@ class CustomersController < ApplicationController
     @customers = Customer.all
   end
 
+  def autocomplete
+    @customers = Customer.where("name ILIKE ? OR phone_number ILIKE ?", "%#{params[:term]}%", "%#{params[:term]}%")
+    render json: @customers.map { |customer| { id: customer.id, value: customer.name_and_phone_number, label: customer.name_and_phone_number } }
+  end
+
   def show
   end
 

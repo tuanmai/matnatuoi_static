@@ -1,0 +1,21 @@
+h1 Danh sách tuần
+
+table
+  thead
+    tr
+      th Tuần
+      th
+      th
+      th
+
+  tbody
+    - @orders.each do |order|
+      tr
+        td = link_to order.name, order
+        td = link_to 'Xem', order
+        td = link_to 'Sửa', edit_order_path(order)
+        td = link_to 'Xoá', order, data: {:confirm => 'Chắc chưa'}, :method => :delete
+
+br
+
+= link_to 'Thêm Tuần mới', new_order_path
