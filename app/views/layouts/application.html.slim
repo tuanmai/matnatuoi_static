@@ -5,21 +5,8 @@ html
     title Mặt nạ TƯơi - Xinh Lắm Cơ Í
     = display_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-    javascript:
-      (function($) { $(document).ready(function(){ $( '#hisella-minimize' ).click( function() { if( $( '#hisella-facebook' ).css( 'opacity' ) == 0 ) { $( '#hisella-facebook' ).css( 'opacity', 1 ); $( '.hisella-messages' ).animate( { right: '0' } ).animate( { bottom: '0' } ); } else { $( '.hisella-messages' ).animate( { bottom: '-300px' } ).animate( { right: '-135px' }, 400, function(){ $( '#hisella-facebook' ).css( 'opacity', 0 ) } ); } } ) }); })(jQuery);
-        (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
   body
     = yield
-    .hisella-messages
-      .hisella-messages-outer
-        #hisella-minimize Gửi tin nhắn facebook
-        #hisella-facebook.fb-page data-adapt-container-width="true" data-height="300" data-hide-cover="false" data-href="https://www.facebook.com/matnatuoi.xlci" data-show-facepile="true" data-show-posts="false" data-small-header="false" data-tabs="messages" data-width="250"
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = render '/shared/facebook_pixel_script'
