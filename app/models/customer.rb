@@ -4,12 +4,6 @@ class Customer < ActiveRecord::Base
 
   has_and_belongs_to_many :orders
 
-  after_save :destroy_object
-
-  def destroy_object
-    raise ''
-  end
-
   def name_and_phone_number
     "#{name} - #{phone_number}"
   end
