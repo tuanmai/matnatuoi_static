@@ -6,9 +6,11 @@ table.table.table-striped
       th STT
       th Tên
       th Số điện thoại
-      th Giờ ship
+      th Loại da
+      th Dị Ứng
+      th Prefer
+      th Gói
       th Địa chỉ
-      th Tiền
       th Ghi chú
       th
       th
@@ -20,13 +22,15 @@ table.table.table-striped
         td = index + 1
         td = customer.name
         td = customer.phone_number
-        td = customer.ship_time
+        td = customer.skin_type
+        td = customer.allergy
+        td = customer.prefer
+        td = customer.combo
         td = customer.address
-        td = customer.price
         td = customer.note
-        td = link_to 'Show', customer
-        td = link_to 'Edit', edit_customer_path(customer)
-        td = link_to 'Destroy', customer, data: {:confirm => 'Chắc chưa?'}, :method => :delete
+        td = link_to 'Xem', customer
+        td = link_to 'Sửa', edit_customer_path(customer)
+        td = link_to 'Xoá', customer, data: {:confirm => 'Chắc chưa?'}, :method => :delete
 br
 
 = link_to 'New Customer', new_customer_path

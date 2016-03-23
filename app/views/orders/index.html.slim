@@ -1,9 +1,10 @@
 h1 Danh sách tuần
 
-table
+table.table.table-striped
   thead
     tr
       th Tuần
+      th Số Khách
       th
       th
       th
@@ -12,6 +13,7 @@ table
     - @orders.each do |order|
       tr
         td = link_to order.name, order
+        td = order.customers.count
         td = link_to 'Xem', order
         td = link_to 'Sửa', edit_order_path(order)
         td = link_to 'Xoá', order, data: {:confirm => 'Chắc chưa'}, :method => :delete
