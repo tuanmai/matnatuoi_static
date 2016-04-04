@@ -1,0 +1,6 @@
+google_drive_client_key: 234234-v5cbujg7oaihbrme0a4mtpfsvqcj923b.apps.googleusercontent.com
+google_drive_client_secret: X74S5LT67L7uo85iI7hCB62G
+google_drive_scope:
+  - https://www.googleapis.com/auth/drive
+  - https://spreadsheets.google.com/feeds/
+new_relic_key: 34c0j56468972d07515d40506deed7577f6ff825
