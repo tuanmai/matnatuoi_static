@@ -6,6 +6,11 @@ class CustomersController < ApplicationController
     @customers = Customer.all
   end
 
+  def sync_google_drive
+    Customer.update_from_google_drive
+    redirect_to :back
+  end
+
   def autocomplete
     @customers = Customer.where("name ILIKE ? OR phone_number ILIKE ?", "%#{params[:term]}%", "%#{params[:term]}%")
     render json: @customers.map { |customer| { id: customer.id, value: customer.name_and_phone_number, label: customer.name_and_phone_number } }

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :customers do
     collection do
       get :autocomplete
+      get :sync_google_drive
     end
   end
 
