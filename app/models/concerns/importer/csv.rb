@@ -11,6 +11,7 @@ module Importer
 
     module ClassMethods
       def create_from_csv(parent: parent, csv_string: csv_string)
+        csv_string = csv_string.gsub(/^([,])+\r\n/, '') # remove empty rows
         if csv_string.blank?
           Importer::Csv::Response.new(false, "Invalid CSV file")
         else
@@ -18,12 +19,11 @@ module Importer
           errors = []
 
           begin
-            rows = ::CSV.parse(csv_string, headers: true)
+            rows = ::CSV.parse(csv_string, headers: true, skip_blanks: true)
           rescue ::CSV::MalformedCSVError => e
             rows = []
             errors << "Malformed CSV: #{e.message}"
           end
-
           rows.each_with_index do |row, index|
             if row.present?
               resource = new_or_update_from_csv(attributes_from_csv_row(row, parent))

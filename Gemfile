@@ -37,6 +37,7 @@ gem 'will_paginate'
 
 gem 'bootstrap-sass', '~> 3.3.6'
 
+gem 'google_drive'
 gem 'google-api-client'
 gem 'figaro'
 
