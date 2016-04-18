@@ -7,7 +7,7 @@ class Customer < ActiveRecord::Base
   class << self
     def attributes_from_csv_row(row, parent)
       {
-        stt: row['STT'],
+        position: row['STT'],
         name: row['Tên'],
         address: row['Địa chỉ'],
         phone_number: row['Số DT'],
@@ -20,8 +20,7 @@ class Customer < ActiveRecord::Base
     end
 
     def new_or_update_from_csv(attrs)
-      if attrs[:stt].present? && attrs[:name].present?
-        attrs.delete(:stt)
+      if attrs[:position].present? && attrs[:name].present?
         customer = Customer.where(name: attrs[:name]).first_or_initialize
         customer.attributes = attrs
         customer
@@ -41,6 +40,6 @@ class Customer < ActiveRecord::Base
   end
 
   def attributes_for_copy
-    [name, phone_number, address, ship_time, price].join("&#09;").html_safe
+    [name, phone_number, address, ship_time, price, note].join("&#09;").html_safe
   end
 end

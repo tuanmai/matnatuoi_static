@@ -9,6 +9,8 @@
     = f.label :search, 'Tên hoặc SĐT', class: 'col-sm-2 control-label'
     .col-sm-4
       = text_field_tag :search, params[:search], placeholder: "Tên", type: "search", id: 'customer_search_input', class: 'form-control'
+      = text_area_tag :search_multi, nil, placeholder: "Nhiều tên", class: 'form-control'
+      = submit_tag "Thêm", class: "btn btn-primary"
   h1 Khách hàng
 
   table.table.table-striped

@@ -6,7 +6,6 @@ class GoogleDriveExporter
 
   def self.instance(google_config = nil)
     google_config ||= GoogleConfig.last
-
     if ENV['google_drive_client_key']
       google_config ||= GoogleConfig.create(client_secret: ENV['google_drive_client_secret'], client_id: ENV['google_drive_client_key'])
     end
