@@ -1,9 +1,13 @@
-class CustomersController < ApplicationController
+class Admin::CustomersController < Admin::BaseController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
 
   def index
-    @customers = Customer.all
+    @customers = Customer.all.order(position: :asc)
+  end
+
+  def sync_google_drive
+    Customer.update_from_google_drive
+    redirect_to :back
   end
 
   def autocomplete

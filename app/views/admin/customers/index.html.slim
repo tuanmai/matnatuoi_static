@@ -1,0 +1,29 @@
+h1 Khách hàng
+h3
+  = link_to 'Sync From Google Drive', sync_google_drive_admin_customers_path
+
+table.mdl-data-table.mdl-js-data-table
+  thead
+    tr
+      th STT
+      th.mdl-data-table__cell--non-numeric Tên
+      th.mdl-data-table__cell--non-numeric Số điện thoại
+      th.mdl-data-table__cell--non-numeric Địa chỉ
+      th.mdl-data-table__cell--non-numeric Ghi chú
+      th.mdl-data-table__cell--non-numeric
+      th.mdl-data-table__cell--non-numeric
+      th.mdl-data-table__cell--non-numeric
+
+  tbody
+    - @customers.each_with_index do |customer, index|
+      tr
+        td = customer.position
+        td.mdl-data-table__cell--non-numeric = customer.name
+        td.mdl-data-table__cell--non-numeric = customer.phone_number
+        td.mdl-data-table__cell--non-numeric = customer.address.try(:truncate, 50)
+        td.mdl-data-table__cell--non-numeric = customer.note.try(:truncate, 50)
+        td.mdl-data-table__cell--non-numeric = link_to 'Xem', admin_customer_path(customer)
+        td.mdl-data-table__cell--non-numeric = link_to 'Sửa', edit_admin_customer_path(customer)
+        td.mdl-data-table__cell--non-numeric = link_to 'Xoá', admin_customer_path(customer), data: {:confirm => 'Chắc chưa?'}, :method => :delete
+br
+= link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary'

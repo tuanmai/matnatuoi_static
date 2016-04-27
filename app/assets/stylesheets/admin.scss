@@ -10,13 +10,11 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require jquery-ui
  *= require_self
  */
  @import "material-design-lite/material.min";
- // @import "bootstrap-sprockets";
- // @import "bootstrap";
- @import "facebook_chat";
- @import "home";
- @import "orders";
- @import "scaffolds";
- @import "structure";
+ @import "jquery-ui";
+ // @import "orders";
+ // @import "structure";
+ @import "admin_layout";

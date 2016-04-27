@@ -1,25 +1,18 @@
-class OrdersController < ApplicationController
+class Admin::OrdersController < Admin::BaseController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
 
-  # GET /orders
-  # GET /orders.json
   def index
     @orders = Order.all.includes(:customers)
   end
 
-  # GET /orders/1
-  # GET /orders/1.json
   def show
   end
 
-  # GET /orders/new
   def new
     @order = Order.create
     redirect_to edit_order_path(@order)
   end
 
-  # GET /orders/1/edit
   def edit
   end
 
@@ -30,7 +23,7 @@ class OrdersController < ApplicationController
       @order.customers << customer
       @order.save
     end
-    redirect_to edit_order_path(@order)
+    redirect_to edit_admin_order_path(@order)
   end
 
   def remove_customer
@@ -38,21 +31,18 @@ class OrdersController < ApplicationController
     customer = Customer.find params[:customer_id]
     @order.customers.delete(customer)
     @order.save
-    redirect_to edit_order_path(@order)
+    redirect_to edit_admin_order_path(@order)
   end
 
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+    params[:search_multi].split("\r\n").each do |name|
+      customer = Customer.where("name ILIKE ?", name).first
+      @order.customers << customer if customer
     end
+    @order.save
+    render :edit
   end
 
   # DELETE /orders/1

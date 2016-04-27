@@ -3,9 +3,11 @@ html
   head
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     title Mặt nạ TƯơi - Xinh Lắm Cơ Í
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
     = display_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
     = csrf_meta_tags
   body
     = yield

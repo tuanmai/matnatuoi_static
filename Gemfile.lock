@@ -50,6 +50,8 @@ GEM
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bower (0.0.5)
+      multi_json
     builder (3.2.2)
     byebug (8.2.2)
     coffee-rails (4.1.1)
@@ -241,6 +243,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
+  bower
   byebug
   coffee-rails (~> 4.1.0)
   devise
