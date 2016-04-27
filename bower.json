@@ -1,0 +1,20 @@
+{
+  "name": "matnatuoi",
+  "homepage": "https://github.com/tuanmai/matnatuoi_static",
+  "description": "mat na tuoi static",
+  "main": "",
+  "authors": [
+    "Tuan Mai"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-design-lite": "^1.1.3"
+  }
+}

@@ -1,6 +1,5 @@
-class CustomersController < ApplicationController
+class Admin::CustomersController < Admin::BaseController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
 
   def index
     @customers = Customer.all.order(position: :asc)

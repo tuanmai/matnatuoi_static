@@ -1,0 +1,55 @@
+= form_for [:admin, @customer] do |f|
+  - if @customer.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@customer.errors.count, "error")} prohibited this customer from being saved:"
+      ul
+        - @customer.errors.full_messages.each do |message|
+          li = message
+  = f.hidden_field :lat, id: 'lat'
+  = f.hidden_field :lng, id: 'lng'
+  = f.hidden_field :place_url, id: 'place_url'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :name, 'Tên', class: 'mdl-textfield__label'
+    = f.text_field :name, class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :phone_number, 'Số điện thoại', class: 'mdl-textfield__label'
+    = f.text_field :phone_number, class: 'mdl-textfield__input', pattern: "-?[0-9]*(\.[0-9]+)?"
+    span.mdl-textfield__error Sai định dạng
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :address, 'Địa chỉ', class: 'mdl-textfield__label'
+    = f.text_field :address, id: 'autocomplete', onFocus: "geolocate()", class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :district, 'Quận', class: 'mdl-textfield__label'
+    = f.text_field :district, id: 'administrative_area_level_2', class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :price, 'Giá', class: 'mdl-textfield__label'
+    = f.text_field :price, class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :ship_time, 'Giờ ship', class: 'mdl-textfield__label'
+    = f.text_field :ship_time, class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :note, 'Ghi chú', class: 'mdl-textfield__label'
+    = f.text_field :note, class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :skin_type, 'Loại Da', class: 'mdl-textfield__label'
+    = f.text_field :skin_type, class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :allergy, 'Dị Ứng', class: 'mdl-textfield__label'
+    = f.text_field :allergy, class: 'mdl-textfield__input'
+
+  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+    = f.label :combo, 'Combo', class: 'mdl-textfield__label'
+    = f.text_field :combo, class: 'mdl-textfield__input'
+
+  = f.submit class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'
+
+script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdm8xAMmvCWA5p8SAjCH_csZZiHXBJEMA&libraries=places&callback=initAutocomplete")

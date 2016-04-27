@@ -28,6 +28,7 @@ function fillInAddress() {
   document.getElementById(locationPointForm.lng).value = place.geometry.location.lng();
   document.getElementById(locationPointForm.place_url).value = place.url;
 
+
   for (var component in componentForm) {
     document.getElementById(component).value = '';
     document.getElementById(component).disabled = false;
@@ -40,6 +41,7 @@ function fillInAddress() {
     if (componentForm[addressType]) {
       var val = place.address_components[i][componentForm[addressType]];
       document.getElementById(addressType).value = val;
+      $('#'+addressType).closest('.mdl-textfield').addClass('is-dirty');
     }
   }
 }

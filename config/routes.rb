@@ -6,15 +6,17 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
 
-  resources :customers do
-    collection do
-      get :autocomplete
-      get :sync_google_drive
+  namespace :admin do
+    resources :customers do
+      collection do
+        get :autocomplete
+        get :sync_google_drive
+      end
     end
-  end
 
-  resources :orders do
-    get :add_customer
-    delete :remove_customer
+    resources :orders do
+      get :add_customer
+      delete :remove_customer
+    end
   end
 end

@@ -1,25 +1,18 @@
-class OrdersController < ApplicationController
+class Admin::OrdersController < Admin::BaseController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
 
-  # GET /orders
-  # GET /orders.json
   def index
     @orders = Order.all.includes(:customers)
   end
 
-  # GET /orders/1
-  # GET /orders/1.json
   def show
   end
 
-  # GET /orders/new
   def new
     @order = Order.create
     redirect_to edit_order_path(@order)
   end
 
-  # GET /orders/1/edit
   def edit
   end
 
@@ -30,7 +23,7 @@ class OrdersController < ApplicationController
       @order.customers << customer
       @order.save
     end
-    redirect_to edit_order_path(@order)
+    redirect_to edit_admin_order_path(@order)
   end
 
   def remove_customer
@@ -38,7 +31,7 @@ class OrdersController < ApplicationController
     customer = Customer.find params[:customer_id]
     @order.customers.delete(customer)
     @order.save
-    redirect_to edit_order_path(@order)
+    redirect_to edit_admin_order_path(@order)
   end
 
   # PATCH/PUT /orders/1
