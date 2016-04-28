@@ -4,3 +4,6 @@ google_drive_scope:
   - https://www.googleapis.com/auth/drive
   - https://spreadsheets.google.com/feeds/
 new_relic_key: 34c0j56468972d07515d40506deed7577f6ff825
+facebook_page_token: faceook_page_token
+facebook_app_id: facebook_app_id
+facebook_app_token: facebook_app_token

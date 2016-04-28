@@ -10,7 +10,7 @@ class Admin::OrdersController < Admin::BaseController
 
   def new
     @order = Order.create
-    redirect_to edit_order_path(@order)
+    redirect_to edit_admin_order_path(@order)
   end
 
   def edit
