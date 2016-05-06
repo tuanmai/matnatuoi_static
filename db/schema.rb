@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506063428) do
+ActiveRecord::Schema.define(version: 20160506085930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,9 +58,17 @@ ActiveRecord::Schema.define(version: 20160506063428) do
   create_table "facebook_users", force: :cascade do |t|
     t.string   "facebook_id"
     t.string   "name"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "customer_id"
+    t.string   "address"
+    t.string   "order_type"
+    t.string   "order_id"
+    t.boolean  "wait_for_address", default: false
+    t.boolean  "ordered",          default: false
   end
+
+  add_index "facebook_users", ["customer_id"], name: "index_facebook_users_on_customer_id", using: :btree
 
   create_table "google_configs", force: :cascade do |t|
     t.string "client_id"

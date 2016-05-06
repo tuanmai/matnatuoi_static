@@ -6,14 +6,21 @@ class FacebookMessageSyncService
   end
 
   def perform
-    messages_data.each do |message_data|
-      if message_data[:message].present?
-        fb_user = FacebookUser.where(facebook_id: message_data[:sender][:id]).first_or_create
-        fb_user.facebook_messages.where(facebook_mid: message_data[:message][:mid]).first_or_create do |message|
-          message.message = message_data[:message][:text]
-          message.timestamp = message_data[:timestamp]
-        end
-      end
+    messages = MessengerPlatform::Parser.execute(messages_data)
+    postback_messages = messages.select { |msg| msg[:type] == 'payload' }
+    messages = messages.select { |msg| msg[:type] == 'message' }
+
+    messages.each do |msg|
+      fb_user = FacebookUser.where(facebook_id: msg[:sender_id]).first_or_create
+      fb_user.facebook_messages.create(message: msg[:text])
+      bot = FacebookBot.new(msg[:sender_id])
+      bot.respond_to_message(msg[:text])
+    end
+
+    postback_messages.each do |msg|
+      fb_user = FacebookUser.where(facebook_id: msg[:sender_id]).first_or_create
+      bot = FacebookBot.new(msg[:sender_id])
+      bot.respond_to_postback(msg[:text])
     end
   end
 end

@@ -3,6 +3,7 @@ class Customer < ActiveRecord::Base
   extend Importer::Csv::ClassMethods
 
   has_and_belongs_to_many :orders
+  has_one :facebook_user
 
   class << self
     def attributes_from_csv_row(row, parent)

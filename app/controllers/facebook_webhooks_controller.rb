@@ -10,7 +10,7 @@ class FacebookWebhooksController < ApplicationController
   end
 
   def create
-    FacebookMessageSyncService.new(params[:entry].first[:messaging]).perform
+    FacebookMessageSyncService.new(params).perform
     head :ok
   end
 end

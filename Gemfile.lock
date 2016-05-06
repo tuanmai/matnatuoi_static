@@ -264,6 +264,7 @@ DEPENDENCIES
   messenger_platform
   meta-tags
   newrelic_rpm
+  nokogiri
   pg (~> 0.15)
   puma
   rails (= 4.2.5)
