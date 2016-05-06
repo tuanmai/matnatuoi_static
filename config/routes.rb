@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :orders do
       get :add_customer
       delete :remove_customer
+
+      resources :products
     end
   end
 end

@@ -1,0 +1,18 @@
+h1 Products
+.actions
+  = link_to 'Back to Order', edit_admin_order_path(@order), class: 'mdl-button mdl-js-button'
+  = link_to 'Add product', new_admin_order_product_path(@order), class: 'mdl-button mdl-js-button'
+
+.mdl-grid
+  - @products.each do |product|
+    .mdl-cell.mdl-cell--4-col
+      .mdl-card.mdl-shadow--2dp
+        .mdl-card__title
+          h2.mdl-card__title-text= product.name
+        .mdl-card__media
+          = image_tag product.image_url, width: 330, height:330, border:0, alt: ""
+        .mdl-card__supporting-text
+          = product.description
+        .mdl-card__actions.mdl-card--border
+          = link_to 'Edit', edit_admin_order_product_path(@order, product), class: 'mdl-button mdl-js-button'
+          = link_to 'Destroy', admin_order_product_path(@order, product), method: :delete, class:'mdl-button mdl-js-button'

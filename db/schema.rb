@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505150724) do
+ActiveRecord::Schema.define(version: 20160506063428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160505150724) do
   create_table "customers_orders", id: false, force: :cascade do |t|
     t.integer "customer_id"
     t.integer "order_id"
+    t.string  "order_type"
   end
 
   add_index "customers_orders", ["customer_id"], name: "index_customers_orders_on_customer_id", using: :btree
@@ -71,6 +72,18 @@ ActiveRecord::Schema.define(version: 20160505150724) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.integer  "order_id"
+    t.string   "name"
+    t.text     "sort_description"
+    t.text     "description"
+    t.string   "image_url"
+    t.string   "product_url"
+    t.string   "product_payload_code"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "users", force: :cascade do |t|

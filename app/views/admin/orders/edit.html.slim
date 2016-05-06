@@ -1,11 +1,13 @@
 h1 = @order.name
 
-== render 'form'
+= link_to 'Show Products', admin_order_products_path(@order), class: 'mdl-button mdl-js-button'
+
+= render 'form'
 
 div
   a class="copy-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-clipboard-text= "#{@order.attributes_for_copy}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
     | Copy data
 
-= link_to 'Show', admin_order_path(@order)
-'|
-= link_to 'Back', admin_orders_path
+.actions
+  = link_to 'Show', admin_order_path(@order), class: 'mdl-button mdl-js-button'
+  = link_to 'Back', admin_orders_path, class: 'mdl-button mdl-js-button'
