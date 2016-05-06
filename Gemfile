@@ -41,6 +41,7 @@ gem 'google_drive'
 gem 'google-api-client'
 gem 'figaro'
 gem 'bower'
+gem 'messenger_platform'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
