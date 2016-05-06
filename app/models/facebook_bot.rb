@@ -7,7 +7,7 @@ class FacebookBot
   def respond_to_message(message)
     if message == 'xem menu'
       list_products
-    elsif fb_user.wait_for_address
+    elsif fb_user.reload.wait_for_address
       set_ship_address(message)
       order = finish_order
       confirm_order(order)
@@ -83,7 +83,7 @@ class FacebookBot
 
   # Confirm order
   def set_ship_address(message)
-    fb_user.wait_for_address = true
+    fb_user.wait_for_address = false
     fb_user.address = message
     fb_user.save
   end
@@ -92,29 +92,29 @@ class FacebookBot
     customer = fb_user.customer || Customer.new(facebook_user: fb_user)
     customer.attributes = fb_user.customer_data
     order = Order.where(id: fb_user.order_id).first
-    customer.orders << order
+    customer.orders << order unless customer.orders.include? order
     customer.save
     order
   end
 
   def confirm_order(order)
     if fb_user.order_type == 'week'
-      cost = 900
+      cost = 90000
       element = {
         "title" => "Combo mặt nạ 1 tuần",
         "subtitle" => "Gồm #{order.products.pluck(:name).join(', ')}",
         "quantity" => 1,
-        "price" => 900,
+        "price" => 90000,
         "currency" => "VND",
         "image_url" => "#{order.products.first.image_url}"
       }
     else
-      cost = 3400
+      cost = 340000
       element = {
         "title" => "Combo mặt nạ 1 tháng",
         "subtitle" => "Gồm tuần này: #{order.products.pluck(:name).join(', ')}",
         "quantity" => 1,
-        "price" => 3400,
+        "price" => 340000,
         "currency" => "VND",
         "image_url" => "#{order.products.first.image_url}"
       }
@@ -130,7 +130,7 @@ class FacebookBot
         "street_1" => fb_user.address,
         "city" => "Hồ Chí Minh",
         "postal_code" => "70000",
-        "state" => "HCM",
+        "state" => "Việt Nam",
         "country" => "Việt Nam"
       },
       "summary" => {
