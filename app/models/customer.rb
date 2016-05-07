@@ -2,8 +2,8 @@ require 'csv'
 class Customer < ActiveRecord::Base
   extend Importer::Csv::ClassMethods
 
-  has_one :facebook_user
-  has_many :orders
+  has_one :facebook_user, dependent: :destroy
+  has_many :orders, dependent: :destroy
   has_many :weeks, through: :orders
 
   class << self

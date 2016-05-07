@@ -1,5 +1,5 @@
 class FacebookBot
-  attr_accessor :user_id, :active_week, :order, :customer
+  attr_accessor :user_id, :active_week, :order
   def initialize(user_id)
     self.user_id = user_id
   end
@@ -8,11 +8,10 @@ class FacebookBot
     if message == 'xem menu'
       list_products
     elsif fb_user.reload.wait_for_address
-      set_ship_address(message)
-      if order = finish_order
+      can_order fb_user.week_id do
+        set_ship_address(message)
+        order = finish_order
         confirm_order(order)
-      else
-        notify_no_active_week
       end
     end
   end
@@ -26,7 +25,7 @@ class FacebookBot
   def list_products
     week = Week.where(active: true).last
     if week.blank?
-      notify_no_order_active
+      notify_no_active_week
       MessengerPlatform.text(self.user_id, "Đây là menu tuần trước, mời bạn tham khảo")
       week = Week.last
     end
@@ -39,6 +38,10 @@ class FacebookBot
 
   def fb_user
     @fb_user ||= FacebookUser.where(facebook_id: self.user_id).first
+  end
+
+  def customer
+    @customer ||= fb_user.customer || Customer.create(facebook_user: fb_user)
   end
 
   # View menu
@@ -77,10 +80,10 @@ class FacebookBot
       week_id = payload.gsub("order_", "")
     end
 
-    if check_active_week(week_id)
+    can_order week_id do
       fb_user.ordered = true
       fb_user.order_type = order_type
-      fb_user.order_id = week_id
+      fb_user.week_id = week_id
       request_ship_address
       fb_user.save
     end
@@ -99,14 +102,14 @@ class FacebookBot
   end
 
   def finish_order
-    customer = fb_user.customer || Customer.new(facebook_user: fb_user)
     customer.attributes = fb_user.customer_data
+    customer.save
     week = Week.where(id: fb_user.week_id, active: true).first
     if week
-      nil
-    else
       # return active_order
       customer.add_order_week(week)
+    else
+      nil
     end
   end
 
@@ -164,7 +167,26 @@ class FacebookBot
     if self.active_week.present?
       true
     else
+      fb_user.reset_status
       notify_no_active_week
+      false
+    end
+  end
+
+  def check_ordered(week_id)
+    if customer.active_order && customer.active_order.week_ids.include?(week_id.to_i)
+      fb_user.reset_status
+      MessengerPlatform.text(self.user_id, "Bạn đã order tuần này rồi, nếu bạn muốn sửa order vui lòng liên hệ shop để giải quyết.")
+      return true
+    end
+    false
+  end
+
+  def can_order(week_id)
+    if check_active_week(week_id) && !check_ordered(week_id)
+      yield if block_given?
+      true
+    else
       false
     end
   end

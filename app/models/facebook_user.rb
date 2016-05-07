@@ -1,28 +1,30 @@
 require 'open-uri'
 class FacebookUser < ActiveRecord::Base
-  has_many :facebook_messages
   belongs_to :customer
-
-  before_create :fetch_user_name
-
-  def facebook_url
-    "https://www.facebook.com/profile.php?id=#{self.facebook_id}"
-  end
+  has_many :facebook_messages, dependent: :destroy
+  before_save :fetch_user_name
+  serialize :raw_data
 
   def customer_data
     {
       name: self.name,
-      facebook_url: self.facebook_url,
+      facebook_id: self.facebook_id,
       address: self.address,
-      combo: self.week_type,
+      combo: self.order_type,
+      photo_url: self.photo_url,
     }
+  end
+
+  def reset_status
+    self.update_attribute(:wait_for_address, false)
   end
 
   private
 
   def fetch_user_name
-    page = Nokogiri::HTML(open("https://www.facebook.com/profile.php?id=#{self.facebook_id}"))
-    name = page.css("#fb-timeline-cover-name").try(:text)
-    self.name = name
+    url = "https://graph.facebook.com/v2.6/#{self.facebook_id}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=#{ENV['page_access_token']}"
+    self.raw_data = HTTParty.get(url).parsed_response
+    self.name = "#{raw_data['last_name']} #{raw_data['first_name']}"
+    self.photo_url = raw_data['profile_pic']
   end
 end
