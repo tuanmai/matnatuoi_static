@@ -1,13 +1,16 @@
 .mdl-grid
   .mdl-cell.mdl-cell--2-col
   .mdl-cell.mdl-cell--8-col
-    = form_for [:admin, @order] do |f|
-      - if @order.errors.any?
+    = form_for [:admin, @week] do |f|
+      - if @week.errors.any?
         #error_explanation
-          h2 = "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
+          h2 = "#{pluralize(@week.errors.count, "error")} prohibited this order from being saved:"
           ul
-            - @order.errors.full_messages.each do |message|
+            - @week.errors.full_messages.each do |message|
               li = message
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect{ for: :week_active}
+        = f.check_box :active, class: 'mdl-switch__input'
+        span.mdl-switch__label Active
       .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
         = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
         = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
@@ -15,7 +18,7 @@
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = f.label :search_multi, 'Nhiều tên', class: 'mdl-textfield__label'
           = text_area_tag :search_multi, nil, class: 'mdl-textfield__input', rows: 10
-      = submit_tag "Thêm", class: "btn btn-primary"
+      = submit_tag "Save", class: "mdl-button mdl-js-button"
 h3 Khách hàng
 
 table.mdl-data-table.mdl-js-data-table
@@ -31,7 +34,7 @@ table.mdl-data-table.mdl-js-data-table
       th.mdl-data-table__cell--non-numeric
 
   tbody
-    - @order.customers.each_with_index do |customer, index|
+    - @week.customers.each_with_index do |customer, index|
       tr
         td = index + 1
         - if customer.name
@@ -48,7 +51,7 @@ table.mdl-data-table.mdl-js-data-table
           a class="copy-btn " data-clipboard-text= "#{customer.attributes_for_copy}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
             | Copy
         td = link_to 'Sửa', edit_admin_customer_path(customer)
-        td = link_to 'Xoá', admin_order_remove_customer_path(@order, customer_id: customer.id), data: {:confirm => 'Chắc chưa?'}, :method => :delete
+        td = link_to 'Xoá', admin_week_remove_customer_path(@week, customer_id: customer.id), data: {:confirm => 'Chắc chưa?'}, :method => :delete
   br
 javascript:
   $(document).ready(function() {
@@ -60,7 +63,7 @@ javascript:
         console.log(e);
     });
     var cache = {};
-    var order_id = "#{@order.id}"
+    var week_id = "#{@week.id}"
     $('#customer_search_input').autocomplete({
       minLength: 2,
       source: function( request, response ) {
@@ -78,7 +81,7 @@ javascript:
       select: function(event, ui) {
         var customer_id = ui.item.id;
         if (!!customer_id) {
-          window.location.href = '/admin/orders/' + order_id + '/add_customer?customer_id=' + customer_id
+          window.location.href = '/admin/weeks/' + week_id + '/add_customer?customer_id=' + customer_id
         }
       }
     })

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :orders do
+    resources :weeks do
       get :add_customer
       delete :remove_customer
 

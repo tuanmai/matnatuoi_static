@@ -1,2 +1,2 @@
-class CustomerOrder < ActiveRecord::Base
+class CustomerWeek < ActiveRecord::Base
 end

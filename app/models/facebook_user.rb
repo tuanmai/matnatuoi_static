@@ -14,7 +14,7 @@ class FacebookUser < ActiveRecord::Base
       name: self.name,
       facebook_url: self.facebook_url,
       address: self.address,
-      combo: self.order_type,
+      combo: self.week_type,
     }
   end
 

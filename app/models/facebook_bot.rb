@@ -1,5 +1,5 @@
 class FacebookBot
-  attr_accessor :user_id
+  attr_accessor :user_id, :active_week, :order, :customer
   def initialize(user_id)
     self.user_id = user_id
   end
@@ -9,8 +9,11 @@ class FacebookBot
       list_products
     elsif fb_user.reload.wait_for_address
       set_ship_address(message)
-      order = finish_order
-      confirm_order(order)
+      if order = finish_order
+        confirm_order(order)
+      else
+        notify_no_active_week
+      end
     end
   end
 
@@ -21,8 +24,13 @@ class FacebookBot
   end
 
   def list_products
-    order = Order.last
-    products = order.products
+    week = Week.where(active: true).last
+    if week.blank?
+      notify_no_order_active
+      MessengerPlatform.text(self.user_id, "Đây là menu tuần trước, mời bạn tham khảo")
+      week = Week.last
+    end
+    products = week.products
     products_data = products.map { |product| payload_data(product) }
     MessengerPlatform.payload(:generic, self.user_id, products_data)
   end
@@ -48,12 +56,12 @@ class FacebookBot
         {
           type: "postback",
           title: "Mua tuần - 90K",
-          payload: "order_#{product.order.id}",
+          payload: "order_#{product.week.id}",
         },
         {
           type: "postback",
           title: "Mua tháng - 340K",
-          payload: "order_month_#{product.order.id}",
+          payload: "order_month_#{product.week.id}",
         },
       ]
     }
@@ -63,17 +71,19 @@ class FacebookBot
   def process_order(payload)
     if payload.include?("order_month")
       order_type = 'month'
-      order_id = payload.gsub("order_month_", "")
+      week_id = payload.gsub("order_month_", "")
     else
       order_type = 'week'
-      order_id = payload.gsub("order_", "")
+      week_id = payload.gsub("order_", "")
     end
 
-    fb_user.ordered = true
-    fb_user.order_type = order_type
-    fb_user.order_id = order_id
-    request_ship_address
-    fb_user.save
+    if check_active_week(week_id)
+      fb_user.ordered = true
+      fb_user.order_type = order_type
+      fb_user.order_id = week_id
+      request_ship_address
+      fb_user.save
+    end
   end
 
   def request_ship_address
@@ -91,10 +101,17 @@ class FacebookBot
   def finish_order
     customer = fb_user.customer || Customer.new(facebook_user: fb_user)
     customer.attributes = fb_user.customer_data
-    order = Order.where(id: fb_user.order_id).first
-    customer.orders << order unless customer.orders.include? order
-    customer.save
-    order
+    week = Week.where(id: fb_user.week_id, active: true).first
+    if week
+      nil
+    else
+      # return active_order
+      customer.add_order_week(week)
+    end
+  end
+
+  def notify_no_active_week
+    MessengerPlatform.text(self.user_id, "Hiện tại chưa có menu tuần mới nên chưa đặt hàng được xin bạn thông cảm. Shop sẽ báo lại cho bạn khi có menu mới")
   end
 
   def confirm_order(order)
@@ -102,27 +119,27 @@ class FacebookBot
       cost = 90000
       element = {
         "title" => "Combo mặt nạ 1 tuần",
-        "subtitle" => "Gồm #{order.products.pluck(:name).join(', ')}",
+        "subtitle" => "Gồm #{order.weeks.last.products.pluck(:name).join(', ')}",
         "quantity" => 1,
         "price" => 90000,
         "currency" => "VND",
-        "image_url" => "#{order.products.first.image_url}"
+        "image_url" => "#{order.weeks.last.products.first.image_url}"
       }
     else
       cost = 340000
       element = {
         "title" => "Combo mặt nạ 1 tháng",
-        "subtitle" => "Gồm tuần này: #{order.products.pluck(:name).join(', ')}",
+        "subtitle" => "Gồm tuần này: #{order.weeks.last.products.pluck(:name).join(', ')}",
         "quantity" => 1,
         "price" => 340000,
         "currency" => "VND",
-        "image_url" => "#{order.products.first.image_url}"
+        "image_url" => "#{order.weeks.last.products.first.image_url}"
       }
     end
     recipient_data = {
       "recipient_name" => fb_user.name || fb_user.facebook_url,
       "currency" => "VND",
-      "order_number" => "#{fb_user.facebook_id}_#{order.id}_#{Time.now.to_i}",
+      "order_number" => "#{fb_user.facebook_id}_#{order.id}_#{order.weeks.last.id}",
       "payment_method" => "Thanh toán lúc ship",
       "timestamp" => Time.now.to_i,
       "elements" => [element],
@@ -140,5 +157,15 @@ class FacebookBot
     }
 
     puts MessengerPlatform.payload(:receipt, self.user_id, recipient_data).inspect
+  end
+
+  def check_active_week(week_id)
+    self.active_week = Week.where(id: week_id, active: true).last
+    if self.active_week.present?
+      true
+    else
+      notify_no_active_week
+      false
+    end
   end
 end

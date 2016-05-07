@@ -1,0 +1,13 @@
+h1 = @week.name
+
+= link_to 'Show Products', admin_week_products_path(@week), class: 'mdl-button mdl-js-button'
+
+= render 'form'
+
+div
+  a class="copy-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-clipboard-text= "#{@week.attributes_for_copy}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
+    | Copy data
+
+.actions
+  = link_to 'Show', admin_week_path(@week), class: 'mdl-button mdl-js-button'
+  = link_to 'Back', admin_weeks_path, class: 'mdl-button mdl-js-button'

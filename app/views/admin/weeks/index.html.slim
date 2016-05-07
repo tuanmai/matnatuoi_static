@@ -1,0 +1,23 @@
+h1 Danh sách tuần
+
+table.mdl-data-table.mdl-js-data-table
+  thead
+    tr
+      th.mdl-data-table__cell--non-numberic Tuần
+      th Số Khách
+      th
+      th
+      th
+
+  tbody
+    - @weeks.each do |week|
+      tr
+        td.mdl-data-table__cell--non-numberic = link_to week.name, admin_week_path(week)
+        td = week.customers.count
+        td = link_to 'Xem', admin_week_path(week)
+        td = link_to 'Sửa', edit_admin_week_path(week)
+        td = link_to 'Xoá', admin_week_path(week), data: {:confirm => 'Chắc chưa'}, :method => :delete
+
+br
+
+= link_to 'Thêm Tuần mới', new_admin_week_path

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506085930) do
+ActiveRecord::Schema.define(version: 20160507042859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,15 +36,6 @@ ActiveRecord::Schema.define(version: 20160506085930) do
     t.string   "combo"
     t.integer  "position"
   end
-
-  create_table "customers_orders", id: false, force: :cascade do |t|
-    t.integer "customer_id"
-    t.integer "order_id"
-    t.string  "order_type"
-  end
-
-  add_index "customers_orders", ["customer_id"], name: "index_customers_orders_on_customer_id", using: :btree
-  add_index "customers_orders", ["order_id"], name: "index_customers_orders_on_order_id", using: :btree
 
   create_table "facebook_messages", force: :cascade do |t|
     t.integer  "facebook_user_id"
@@ -77,13 +68,22 @@ ActiveRecord::Schema.define(version: 20160506085930) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "customer_id"
+    t.integer  "num_of_weeks"
+    t.boolean  "active",       default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
+  create_table "orders_weeks", id: false, force: :cascade do |t|
+    t.integer "week_id"
+    t.integer "order_id"
+  end
+
+  add_index "orders_weeks", ["order_id"], name: "index_orders_weeks_on_order_id", using: :btree
+  add_index "orders_weeks", ["week_id"], name: "index_orders_weeks_on_week_id", using: :btree
+
   create_table "products", force: :cascade do |t|
-    t.integer  "order_id"
     t.string   "name"
     t.text     "sort_description"
     t.text     "description"
@@ -92,7 +92,10 @@ ActiveRecord::Schema.define(version: 20160506085930) do
     t.string   "product_payload_code"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "week_id"
   end
+
+  add_index "products", ["week_id"], name: "index_products_on_week_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -111,5 +114,12 @@ ActiveRecord::Schema.define(version: 20160506085930) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "weeks", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "active",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
 end

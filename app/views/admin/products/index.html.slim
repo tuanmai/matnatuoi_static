@@ -1,7 +1,16 @@
 h1 Products
 .actions
-  = link_to 'Back to Order', edit_admin_order_path(@order), class: 'mdl-button mdl-js-button'
-  = link_to 'Add product', new_admin_order_product_path(@order), class: 'mdl-button mdl-js-button'
+  = link_to 'Back to Week', edit_admin_week_path(@week), class: 'mdl-button mdl-js-button'
+  = link_to 'Add product', new_admin_week_product_path(@week), class: 'mdl-button mdl-js-button'
+
+.mdl-grid
+  .mdl-cell.mdl-cell--2-col
+  .mdl-cell.mdl-cell--8-col
+    = form_for [:admin, @week] do |f|
+      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect{ for: :week_active}
+        = f.check_box :active, class: 'mdl-switch__input'
+        span.mdl-switch__label Active
+      = submit_tag "Save", class: "mdl-button mdl-js-button"
 
 .mdl-grid
   - @products.each do |product|
@@ -14,5 +23,5 @@ h1 Products
         .mdl-card__supporting-text
           = product.description
         .mdl-card__actions.mdl-card--border
-          = link_to 'Edit', edit_admin_order_product_path(@order, product), class: 'mdl-button mdl-js-button'
-          = link_to 'Destroy', admin_order_product_path(@order, product), method: :delete, class:'mdl-button mdl-js-button'
+          = link_to 'Edit', edit_admin_week_product_path(@week, product), class: 'mdl-button mdl-js-button'
+          = link_to 'Destroy', admin_week_product_path(@week, product), method: :delete, class:'mdl-button mdl-js-button'

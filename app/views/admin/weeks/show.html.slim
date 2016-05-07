@@ -1,5 +1,5 @@
 p#notice = notice
-h2 #{@order.name}
+h2 #{@week.name}
 table.table.table-striped
   thead
     tr
@@ -12,7 +12,7 @@ table.table.table-striped
       th Ghi chú
 
   tbody
-    - @order.customers.each_with_index do |customer, index|
+    - @week.customers.each_with_index do |customer, index|
       tr
         td = index + 1
         td = customer.name
@@ -22,6 +22,6 @@ table.table.table-striped
         td = customer.price
         td = customer.note
 
-= link_to 'Sửa', edit_admin_order_path(@order)
+= link_to 'Sửa', edit_admin_week_path(@week)
 '|
-= link_to 'Trở lại', admin_orders_path
+= link_to 'Trở lại', admin_weeks_path

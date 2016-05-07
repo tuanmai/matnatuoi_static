@@ -2,8 +2,9 @@ require 'csv'
 class Customer < ActiveRecord::Base
   extend Importer::Csv::ClassMethods
 
-  has_and_belongs_to_many :orders
   has_one :facebook_user
+  has_many :orders
+  has_many :weeks, through: :orders
 
   class << self
     def attributes_from_csv_row(row, parent)
@@ -33,6 +34,22 @@ class Customer < ActiveRecord::Base
       sheet = google_drive.sheet_file
       worksheet = sheet.worksheet_by_title(ENV['khach_hang_sheet'])
       self.create_from_csv(csv_string: worksheet.export_as_string)
+    end
+  end
+
+  def add_order_week(week)
+    active_order.weeks << week unless active_order.weeks.include? week
+    active_order
+  end
+
+  def remove_order_week(week)
+    active_order.weeks.delete(week)
+    active_order
+  end
+
+  def active_order(num_of_weeks = 1)
+    self.orders.where(active: true).first_or_create do |order|
+      order.num_of_weeks = num_of_weeks
     end
   end
 
