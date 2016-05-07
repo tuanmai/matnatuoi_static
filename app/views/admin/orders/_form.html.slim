@@ -34,7 +34,11 @@ table.mdl-data-table.mdl-js-data-table
     - @order.customers.each_with_index do |customer, index|
       tr
         td = index + 1
-        td.mdl-data-table__cell--non-numeric = customer.name
+        - if customer.name
+          td.mdl-data-table__cell--non-numeric = customer.name
+        - else
+          td.mdl-data-table__cell--non-numeric = link_to customer.facebook_url, customer.facebook_url
+
         td = " #{customer.phone_number}"
         td.mdl-data-table__cell--non-numeric = customer.address
         td.mdl-data-table__cell--non-numeric = customer.ship_time

@@ -134,8 +134,8 @@ class FacebookBot
         "country" => "Việt Nam"
       },
       "summary" => {
-        "subtotal" => cost,
-        "total_cost" => cost
+        "subtotal" => cost/100,
+        "total_cost" => cost/100
       }
     }
 
