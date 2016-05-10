@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
   private
 
   def update_active(week = nil)
-    if self.weeks.where(status: Week.status[:closed]).count >= self.num_of_weeks
+    if self.weeks.where(status: Week.statuses[:closed]).count >= self.num_of_weeks
       self.active = false
       self.save
     end
