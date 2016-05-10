@@ -9,7 +9,8 @@ class Admin::WeeksController < Admin::BaseController
   end
 
   def new
-    @week = Week.create
+    Week.where(status: Week.statuses[:opening]).update_all(status: Week.statuses[:closed])
+    @week = Week.create(status: Week.statuses[:pending])
     redirect_to edit_admin_week_path(@week)
   end
 

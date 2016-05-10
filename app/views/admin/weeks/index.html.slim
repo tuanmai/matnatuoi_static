@@ -5,6 +5,7 @@ table.mdl-data-table.mdl-js-data-table
     tr
       th.mdl-data-table__cell--non-numberic Tuần
       th Số Khách
+      th Trạng thái
       th
       th
       th
@@ -14,7 +15,8 @@ table.mdl-data-table.mdl-js-data-table
       tr
         td.mdl-data-table__cell--non-numberic = link_to week.name, admin_week_path(week)
         td = week.customers.count
-        td = link_to 'Xem', admin_week_path(week)
+        td = week.status.humanize
+        td = link_to 'Xem', admin_week_products_path(week)
         td = link_to 'Sửa', edit_admin_week_path(week)
         td = link_to 'Xoá', admin_week_path(week), data: {:confirm => 'Chắc chưa'}, :method => :delete
 

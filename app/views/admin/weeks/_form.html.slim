@@ -8,12 +8,15 @@
           ul
             - @week.errors.full_messages.each do |message|
               li = message
-      label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect{ for: :week_active}
-        = f.check_box :active, class: 'mdl-switch__input'
-        span.mdl-switch__label Active
-      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-        = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
-        = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
+      div
+        .mdl-selectfield.mdl-js-selectfield.mdl-selectfield--floating-label
+          = f.select :status, options_for_select(Week.statuses.map { |s| [s[0].humanize, s[0]] }, selected: @week.status), {}, class: 'mdl-selectfield__select'
+          label.mdl-selectfield__label{for: :week_status} Status
+          span.mdl-selectfield__error Select a value
+      div
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
+          = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
       div
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           = f.label :search_multi, 'Nhiều tên', class: 'mdl-textfield__label'

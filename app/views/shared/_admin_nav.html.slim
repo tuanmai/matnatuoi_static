@@ -12,6 +12,7 @@
       nav.matnatuoi-navigation.mdl-navigation
         = link_to "Customer", admin_customers_path, class: "mdl-navigation__link mdl-typography--text-uppercase"
         = link_to "Week", admin_weeks_path, class: "mdl-navigation__link mdl-typography--text-uppercase"
+        = link_to "Order", admin_orders_path, class: "mdl-navigation__link mdl-typography--text-uppercase"
         = link_to "Logout", destroy_user_session_path, class: "mdl-navigation__link mdl-typography--text-uppercase", method: :delete
     span.matnatuoi-mobile-title.mdl-layout-title
       img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo.png")}"
@@ -21,4 +22,5 @@
   nav.mdl-navigation
     = link_to "Customer", admin_customers_path, class: "mdl-navigation__link"
     = link_to "Week", admin_weeks_path, class: "mdl-navigation__link"
+    = link_to "Order", admin_orders_path, class: "mdl-navigation__link"
     = link_to "Logout", destroy_user_session_path, class: "mdl-navigation__link"

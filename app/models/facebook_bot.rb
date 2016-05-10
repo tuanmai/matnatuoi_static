@@ -23,15 +23,15 @@ class FacebookBot
   end
 
   def list_products
-    week = Week.where(active: true).last
+    week = Week.where(status: Week.statuses[:opening]).last
     if week.blank?
       notify_no_active_week
-      MessengerPlatform.text(self.user_id, "Đây là menu tuần trước, mời bạn tham khảo")
+      puts MessengerPlatform.text(self.user_id, "Đây là menu tuần trước, mời bạn tham khảo").inspect
       week = Week.last
     end
     products = week.products
     products_data = products.map { |product| payload_data(product) }
-    MessengerPlatform.payload(:generic, self.user_id, products_data)
+    puts MessengerPlatform.payload(:generic, self.user_id, products_data).inspect
   end
 
   private
@@ -91,7 +91,7 @@ class FacebookBot
 
   def request_ship_address
     fb_user.wait_for_address = true
-    MessengerPlatform.text(self.user_id, "Làm ơn nhập địa chỉ ship và số điện thoại (1 dòng)")
+    puts MessengerPlatform.text(self.user_id, "Làm ơn nhập địa chỉ ship và số điện thoại (1 dòng)").inspect
   end
 
   # Confirm order
@@ -104,7 +104,7 @@ class FacebookBot
   def finish_order
     customer.attributes = fb_user.customer_data
     customer.save
-    week = Week.where(id: fb_user.week_id, active: true).first
+    week = Week.where(id: fb_user.week_id, status: Week.statuses[:opening]).first
     if week
       # return active_order
       customer.add_order_week(week)
@@ -114,7 +114,7 @@ class FacebookBot
   end
 
   def notify_no_active_week
-    MessengerPlatform.text(self.user_id, "Hiện tại chưa có menu tuần mới nên chưa đặt hàng được xin bạn thông cảm. Shop sẽ báo lại cho bạn khi có menu mới")
+    puts MessengerPlatform.text(self.user_id, "Hiện tại chưa có menu tuần mới nên chưa đặt hàng được xin bạn thông cảm. Shop sẽ báo lại cho bạn khi có menu mới").inspect
   end
 
   def confirm_order(order)
@@ -163,7 +163,7 @@ class FacebookBot
   end
 
   def check_active_week(week_id)
-    self.active_week = Week.where(id: week_id, active: true).last
+    self.active_week = Week.where(id: week_id, status: Week.statuses[:opening]).last
     if self.active_week.present?
       true
     else
@@ -176,7 +176,7 @@ class FacebookBot
   def check_ordered(week_id)
     if customer.active_order && customer.active_order.week_ids.include?(week_id.to_i)
       fb_user.reset_status
-      MessengerPlatform.text(self.user_id, "Bạn đã order tuần này rồi, nếu bạn muốn sửa order vui lòng liên hệ shop để giải quyết.")
+      puts MessengerPlatform.text(self.user_id, "Bạn đã order tuần này rồi, nếu bạn muốn sửa order vui lòng liên hệ shop để giải quyết.").inspect
       return true
     end
     false
