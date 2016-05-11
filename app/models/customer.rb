@@ -38,7 +38,7 @@ class Customer < ActiveRecord::Base
   end
 
   def add_order_week(week)
-    if active_order && !active_order.weeks.include? week
+    if active_order && !active_order.weeks.include?(week)
       active_order.weeks << week
     end
     active_order
