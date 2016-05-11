@@ -1,5 +1,5 @@
 class Admin::OrdersController < Admin::BaseController
-  before_action :get_order, only: [:edit, :update]
+  before_action :get_order, only: [:edit, :update, :destroy]
 
   def index
     @orders = Order.all.includes(:weeks, :customer)
@@ -14,6 +14,11 @@ class Admin::OrdersController < Admin::BaseController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @order.destroy
+    redirect_to action: :index
   end
 
   private
