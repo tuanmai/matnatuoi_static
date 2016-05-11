@@ -107,6 +107,8 @@ class FacebookBot
     week = Week.where(id: fb_user.week_id, status: Week.statuses[:opening]).first
     if week
       # return active_order
+      num_of_weeks = fb_user.order_type == 'month' ? '4' : 1
+      new_order = customer.active_order(num_of_weeks)
       customer.add_order_week(week)
     else
       nil
