@@ -108,7 +108,7 @@ class FacebookBot
     if week
       # return active_order
       num_of_weeks = fb_user.order_type == 'month' ? '4' : 1
-      new_order = customer.active_order(num_of_weeks)
+      new_order = customer.orders.create(num_of_weeks: num_of_weeks)
       customer.add_order_week(week)
     else
       nil

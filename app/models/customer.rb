@@ -38,7 +38,7 @@ class Customer < ActiveRecord::Base
   end
 
   def add_order_week(week)
-    active_order.weeks << week unless active_order.weeks.include? week
+    active_order.weeks << week unless active_order && active_order.weeks.include? week
     active_order
   end
 
@@ -47,10 +47,8 @@ class Customer < ActiveRecord::Base
     active_order
   end
 
-  def active_order(num_of_weeks = 1)
-    self.orders.where(active: true).first_or_create do |order|
-      order.num_of_weeks = num_of_weeks
-    end
+  def active_order
+    self.orders.where(active: true).first
   end
 
   def name_and_phone_number
