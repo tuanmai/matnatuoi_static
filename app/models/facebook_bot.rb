@@ -142,7 +142,7 @@ class FacebookBot
     recipient_data = {
       "recipient_name" => fb_user.name || fb_user.facebook_url,
       "currency" => "VND",
-      "order_number" => "#{fb_user.facebook_id}_#{order.id}_#{order.weeks.last.id}",
+      "order_number" => "#{fb_user.facebook_id}_#{order.id}_#{order.weeks.last.id}_#{Time.now.to_i}",
       "payment_method" => "Thanh toán lúc ship",
       "timestamp" => Time.now.to_i,
       "elements" => [element],
