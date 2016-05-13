@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
     resources :weeks do
       get :add_customer
+      get :get_facebook_orders
       delete :remove_customer
 
       resources :products

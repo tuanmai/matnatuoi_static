@@ -23,7 +23,7 @@ class Customer < ActiveRecord::Base
 
     def new_or_update_from_csv(attrs)
       if attrs[:position].present? && attrs[:name].present?
-        customer = Customer.where(name: attrs[:name]).first_or_initialize
+        customer = Customer.where(name: attrs[:name], position: attrs[:position]).first_or_initialize
         customer.attributes = attrs
         customer
       end
@@ -37,11 +37,10 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def add_order_week(week)
-    if active_order && !active_order.weeks.include?(week)
-      active_order.weeks << week
-    end
-    active_order
+  def add_order_week(week, num_of_weeks = 1)
+    order = first_or_create_active_order(num_of_weeks)
+    order.weeks << week unless order.weeks.include?(week)
+    order
   end
 
   def remove_order_week(week)
@@ -49,6 +48,13 @@ class Customer < ActiveRecord::Base
       active_order.weeks.delete(week)
     end
     active_order
+  end
+
+  def first_or_create_active_order(num_of_weeks = 1)
+    @active_order ||= self.orders.where(active: true).first_or_create do |order|
+      order.active = true
+      order.num_of_weeks = num_of_weeks
+    end
   end
 
   def active_order
