@@ -37,6 +37,12 @@ class Admin::WeeksController < Admin::BaseController
     redirect_to edit_admin_week_path(@week)
   end
 
+  def get_facebook_customers
+    @week = Week.find params[:week_id]
+    Sync::FacebookCustomer.new.call
+    redirect_to edit_admin_week_path(@week)
+  end
+
   # PATCH/PUT /weeks/1
   # PATCH/PUT /weeks/1.json
   def update
