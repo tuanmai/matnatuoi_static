@@ -1,6 +1,7 @@
 h1 = @week.name
 
 = link_to 'Show Products', admin_week_products_path(@week), class: 'mdl-button mdl-js-button'
+= link_to 'Get Facebook Order', admin_week_get_facebook_orders_path(@week), class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'
 
 = render 'form'
 

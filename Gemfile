@@ -43,6 +43,7 @@ gem 'figaro'
 gem 'bower'
 gem 'messenger_platform'
 gem 'httparty'
+gem 'fb_page_api'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

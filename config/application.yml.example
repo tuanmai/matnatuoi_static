@@ -9,3 +9,5 @@ facebook_app_id: facebook_app_id
 facebook_app_token: facebook_app_token
 facebook_webhook_verify_token: facebook_webhook_verify_token
 page_access_token: page_access_token
+facebook_page_id: facebook_page_id
+order_month_label: Tháng
