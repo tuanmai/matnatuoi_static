@@ -49,7 +49,7 @@ class Admin::WeeksController < Admin::BaseController
     if params[:search_multi].present?
       params[:search_multi].split("\r\n").each do |name|
         customer = Customer.where("name ILIKE ?", name).first
-        customer.add_order_week(@week)
+        customer.add_order_week(@week) if customer
       end
     end
     @week.attributes = week_params
