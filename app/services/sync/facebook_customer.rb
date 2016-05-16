@@ -4,16 +4,21 @@ module Sync
       get_customer_data_from_notes
     end
 
+    private
+
     def get_customer_data_from_notes
       Customer.update_from_google_drive
       FbPageApi.admin_notes.collection.map do |note|
-        facebook_id = note['user']['id']
-        customer = Customer.where(facebook_id: facebook_id).first_or_create do |c|
-          c.name = note['user']['name']
-        end
+        customer = find_or_create_customer(note['user'])
         customer.attributes = extract_customer_attributes(note['body'])
         customer.save
         customer
+      end
+    end
+
+    def find_or_create_customer(facebook_user)
+      Customer.where(facebook_id: facebook_user['id']).first_or_create do |customer|
+       customer.name = facebook_user['name']
       end
     end
 
