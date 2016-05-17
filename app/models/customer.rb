@@ -15,9 +15,10 @@ class Customer < ActiveRecord::Base
         phone_number: row['Số DT'],
         skin_type: row['Loại Da'],
         allergy: row['Dị ứng'],
-        note: row['Note'],
+        note: [row['Note'], row['Note 2'], row['Note 3']].compact.join("; "),
         prefer: row['Prefer'],
         combo: row['Gói'],
+        facebook_name: row['Facebook Name'],
       }
     end
 

@@ -14,7 +14,7 @@ namespace :customer do
     user_ids.each do |user_id|
       begin
         user = FbPageApi.users.get(user_id)
-        customer = Customer.where(name: user['name']).first
+        customer = Customer.where(facebook_name: user['name']).first
         customer.update_attributes(facebook_id: user['id']) if customer
       rescue
       end
