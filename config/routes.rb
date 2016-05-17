@@ -26,5 +26,6 @@ Rails.application.routes.draw do
     end
 
     resources :orders
+    resources :confirm_orders
   end
 end

@@ -1,0 +1,26 @@
+h1 Order
+
+table.mdl-data-table.mdl-js-data-table
+  thead
+    tr
+      th STT
+      th.mdl-data-table__cell--non-numeric Tên
+      th.mdl-data-table__cell--non-numeric Số tuần order
+      th.mdl-data-table__cell--non-numeric Tuần đã đặt
+      th.mdl-data-table__cell--non-numeric Ngày bắt đầu order
+      th.mdl-data-table__cell--non-numeric
+      th.mdl-data-table__cell--non-numeric
+      th.mdl-data-table__cell--non-numeric
+
+  tbody
+    - @orders.each_with_index do |order, index|
+      tr
+        td = index + 1
+        td.mdl-data-table__cell--non-numeric = order.customer.name
+        td.mdl-data-table__cell--non-numeric = order.num_of_weeks
+        td.mdl-data-table__cell--non-numeric = order.weeks.pluck(:name).join(', ')
+        td.mdl-data-table__cell--non-numeric = order.created_at.strftime("%d/%m/%Y")
+        td.mdl-data-table__cell--non-numeric = link_to '1 Tuần', admin_confirm_order_path(order, num_of_weeks: 1), method: :put
+        td.mdl-data-table__cell--non-numeric = link_to '1 Tháng', admin_confirm_order_path(order, num_of_weeks: 4), method: :put
+        td.mdl-data-table__cell--non-numeric = link_to 'Hết', admin_confirm_order_path(order), data: {:confirm => 'Chắc chưa?'}, :method => :delete
+br
