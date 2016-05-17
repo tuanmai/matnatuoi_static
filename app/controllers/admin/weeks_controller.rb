@@ -17,6 +17,10 @@ class Admin::WeeksController < Admin::BaseController
   def edit
   end
 
+  def ship_info
+    @week = Week.find params[:week_id]
+  end
+
   def add_customer
     @week = Week.find params[:week_id]
     customer = Customer.find params[:customer_id]

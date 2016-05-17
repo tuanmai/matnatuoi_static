@@ -12,9 +12,8 @@ table.mdl-data-table.mdl-js-data-table
     tr
       th STT
       th.mdl-data-table__cell--non-numeric Tên
-      th.mdl-data-table__cell--non-numeric Loại Da
-      th.mdl-data-table__cell--non-numeric Dị Ứng
-      th.mdl-data-table__cell--non-numeric Prefer
+      th.mdl-data-table__cell--non-numeric Số điện thoại
+      th.mdl-data-table__cell--non-numeric Địa chỉ
       th.mdl-data-table__cell--non-numeric Ghi chú
       th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric
@@ -29,12 +28,11 @@ table.mdl-data-table.mdl-js-data-table
         - else
           td.mdl-data-table__cell--non-numeric = link_to customer.facebook_url, customer.facebook_url
 
-        td = customer.skin_type
-        td = customer.allergy
-        td = customer.prefer
+        td = " #{customer.phone_number}"
+        td.mdl-data-table__cell--non-numeric = customer.address
         td.mdl-data-table__cell--non-numeric = customer.note
         td
-          a class="copy-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-clipboard-text= "#{customer.attributes_for_customer_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
+          a class="copy-btn " data-clipboard-text= "#{customer.attributes_for_customer_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
             | Copy
         td = link_to 'Sửa', edit_admin_customer_path(customer)
         td = link_to 'Xoá', admin_week_remove_customer_path(@week, customer_id: customer.id), data: {:confirm => 'Chắc chưa?'}, :method => :delete
