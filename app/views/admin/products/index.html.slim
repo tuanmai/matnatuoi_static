@@ -1,18 +1,9 @@
 h1 Products
 .actions
-  = link_to 'Back to Week', edit_admin_week_path(@week), class: 'mdl-button mdl-js-button'
+  = link_to 'Back to Weeks', admin_weeks_path, class: 'mdl-button mdl-js-button'
   = link_to 'Add product', new_admin_week_product_path(@week), class: 'mdl-button mdl-js-button'
-
-.mdl-grid
-  .mdl-cell.mdl-cell--2-col
-  .mdl-cell.mdl-cell--8-col
-    = form_for [:admin, @week] do |f|
-      div
-        .mdl-selectfield.mdl-js-selectfield.mdl-selectfield--floating-label
-          = f.select :status, options_for_select(Week.statuses.map { |s| [s[0].humanize, s[0]] }, selected: @week.status), {}, class: 'mdl-selectfield__select'
-          label.mdl-selectfield__label{for: :week_status} Status
-          span.mdl-selectfield__error Select a value
-      = submit_tag "Save", class: "mdl-button mdl-js-button"
+  = link_to 'Customer Page', edit_admin_week_path(@week), class: 'mdl-button mdl-js-button mdl-button--raised mdl-button--accent'
+  = link_to 'Ship Page', admin_week_ship_info_path(@week), class: 'mdl-button mdl-js-button mdl-button--raised mdl-button--accent'
 
 .mdl-grid
   - @products.each do |product|

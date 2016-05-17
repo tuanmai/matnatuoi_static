@@ -123,7 +123,7 @@ a img{
     border-bottom: 4px solid transparent;
   }
 
-    .matnatuoi-navigation .mdl-navigation__link:hover {
+    .matnatuoi-navigation .mdl-navigation__link:hover, .matnatuoi-navigation .mdl-navigation__link.active {
       border-bottom: 4px solid #8bc34a;
     }
 
