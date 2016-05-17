@@ -14,7 +14,7 @@ module Sync
       return [] unless find_week_label
       find_week_label['users']['data'].map do |user|
         customer = find_or_create_customer(user)
-        num_of_weeks = order_month?((user) ? 4 : 1
+        num_of_weeks = order_month?(user) ? 4 : 1
         customer.add_order_week(week.reload, num_of_weeks)
         customer
       end
@@ -40,11 +40,11 @@ module Sync
     end
 
     def find_week_label
-      @find_week_label ||= labels.lazy.select { |label| label['name'] == self.week.order_label && label['users'].present? }.take(1)
+      @find_week_label ||= labels.lazy.select { |label| label['name'] == self.week.order_label && label['users'].present? }.first
     end
 
     def find_month_label
-      @find_month_label ||= labels.lazy.select { |label| label['name'] == ENV['order_month_label'] && label['users'].present? }.take(1)
+      @find_month_label ||= labels.lazy.select { |label| label['name'] == ENV['order_month_label'] && label['users'].present? }.first
     end
 
     def labels

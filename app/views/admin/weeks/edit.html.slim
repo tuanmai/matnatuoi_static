@@ -2,13 +2,14 @@ h1 = @week.name
 
 = link_to 'Show Products', admin_week_products_path(@week), class: 'mdl-button mdl-js-button'
 = link_to 'Get Facebook Order', admin_week_get_facebook_orders_path(@week), class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'
-= link_to 'Get Facebook Customer Data', admin_week_get_facebook_customers_path(@week), class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'
 
 = render 'form'
 
 div
-  a class="copy-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-clipboard-text= "#{@week.attributes_for_copy}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
-    | Copy data
+  a class="copy-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-clipboard-text= "#{@week.attributes_for_ship}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
+    | Copy Ship Data
+  a class="copy-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-clipboard-text= "#{@week.attributes_for_customer_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
+    | Copy Customer Data
 
 .actions
   = link_to 'Show', admin_week_path(@week), class: 'mdl-button mdl-js-button'

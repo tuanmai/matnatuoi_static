@@ -1,6 +1,6 @@
 .mdl-grid
-  .mdl-cell.mdl-cell--2-col
-  .mdl-cell.mdl-cell--8-col
+  .mdl-cell.mdl-cell--1-col
+  .mdl-cell.mdl-cell--10-col
     = form_for [:admin, @week] do |f|
       - if @week.errors.any?
         #error_explanation
@@ -8,24 +8,21 @@
           ul
             - @week.errors.full_messages.each do |message|
               li = message
-      div
-        .mdl-selectfield.mdl-js-selectfield.mdl-selectfield--floating-label
-          = f.select :status, options_for_select(Week.statuses.map { |s| [s[0].humanize, s[0]] }, selected: @week.status), {}, class: 'mdl-selectfield__select'
-          label.mdl-selectfield__label{for: :week_status} Status
-          span.mdl-selectfield__error Select a value
 
-      div
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          = f.label :order_label, 'Order label on Facebook', class: 'mdl-textfield__label'
-          = f.text_field :order_label, class: 'mdl-textfield__input'
-      div
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
-          = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
-      div
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          = f.label :search_multi, 'Nhiều tên', class: 'mdl-textfield__label'
-          = text_area_tag :search_multi, nil, class: 'mdl-textfield__input', rows: 10
+      .mdl-selectfield.mdl-js-selectfield.mdl-selectfield--floating-label
+        = f.select :status, options_for_select(Week.statuses.map { |s| [s[0].humanize, s[0]] }, selected: @week.status), {}, class: 'mdl-selectfield__select'
+        label.mdl-selectfield__label{for: :week_status} Status
+        span.mdl-selectfield__error Select a value
+
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.label :order_label, 'Order label on Facebook', class: 'mdl-textfield__label'
+        = f.text_field :order_label, class: 'mdl-textfield__input'
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
+        = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.label :search_multi, 'Nhiều tên', class: 'mdl-textfield__label'
+        = text_area_tag :search_multi, nil, class: 'mdl-textfield__input', rows: 5
       = submit_tag "Save", class: "mdl-button mdl-js-button"
 h3 Khách hàng
 
@@ -52,11 +49,9 @@ table.mdl-data-table.mdl-js-data-table
 
         td = " #{customer.phone_number}"
         td.mdl-data-table__cell--non-numeric = customer.address
-        td.mdl-data-table__cell--non-numeric = customer.ship_time
-        td.mdl-data-table__cell--non-numeric = customer.price
         td.mdl-data-table__cell--non-numeric = customer.note
         td
-          a class="copy-btn " data-clipboard-text= "#{customer.attributes_for_copy}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
+          a class="copy-btn " data-clipboard-text= "#{customer.attributes_for_customer_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
             | Copy
         td = link_to 'Sửa', edit_admin_customer_path(customer)
         td = link_to 'Xoá', admin_week_remove_customer_path(@week, customer_id: customer.id), data: {:confirm => 'Chắc chưa?'}, :method => :delete

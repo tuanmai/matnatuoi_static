@@ -7,8 +7,12 @@ class Week < ActiveRecord::Base
 
   after_create :set_name
 
-  def attributes_for_copy
-    customers.map(&:attributes_for_copy).join("&#10;").html_safe
+  def attributes_for_ship
+    customers.map(&:attributes_for_ship).join("&#10;").html_safe
+  end
+
+  def attributes_for_customer_data
+    customers.map(&:attributes_for_customer_data).join("&#10;").html_safe
   end
 
   private

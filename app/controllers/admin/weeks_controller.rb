@@ -34,11 +34,6 @@ class Admin::WeeksController < Admin::BaseController
   def get_facebook_orders
     @week = Week.find params[:week_id]
     Sync::FacebookOrder.new(@week).call
-    redirect_to edit_admin_week_path(@week)
-  end
-
-  def get_facebook_customers
-    @week = Week.find params[:week_id]
     Sync::FacebookCustomer.new.call
     redirect_to edit_admin_week_path(@week)
   end
