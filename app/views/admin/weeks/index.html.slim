@@ -17,7 +17,8 @@ table.mdl-data-table.mdl-js-data-table
         td = week.customers.count
         td = week.status.humanize
         td = link_to 'Xem', admin_week_products_path(week)
-        td = link_to 'Sửa', edit_admin_week_path(week)
+        td = link_to 'Khách hàng', edit_admin_week_path(week)
+        td = link_to 'Ship', admin_week_ship_info_path(week)
         td = link_to 'Xoá', admin_week_path(week), data: {:confirm => 'Chắc chưa'}, :method => :delete
 
 br

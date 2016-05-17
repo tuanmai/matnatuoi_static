@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512101353) do
+ActiveRecord::Schema.define(version: 20160517034623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20160512101353) do
     t.string   "ship_time"
     t.float    "lat"
     t.float    "lng"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "district"
     t.string   "place_url"
     t.string   "skin_type"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160512101353) do
     t.integer  "position"
     t.string   "photo_url"
     t.string   "facebook_id"
+    t.string   "facebook_name"
   end
 
   create_table "facebook_messages", force: :cascade do |t|

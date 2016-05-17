@@ -1,6 +1,6 @@
 .mdl-grid
-  .mdl-cell.mdl-cell--2-col
-  .mdl-cell.mdl-cell--8-col
+  .mdl-cell.mdl-cell--1-col
+  .mdl-cell.mdl-cell--10-col
     = form_for [:admin, @week] do |f|
       - if @week.errors.any?
         #error_explanation
@@ -8,96 +8,19 @@
           ul
             - @week.errors.full_messages.each do |message|
               li = message
-      div
-        .mdl-selectfield.mdl-js-selectfield.mdl-selectfield--floating-label
-          = f.select :status, options_for_select(Week.statuses.map { |s| [s[0].humanize, s[0]] }, selected: @week.status), {}, class: 'mdl-selectfield__select'
-          label.mdl-selectfield__label{for: :week_status} Status
-          span.mdl-selectfield__error Select a value
 
-      div
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          = f.label :order_label, 'Order label on Facebook', class: 'mdl-textfield__label'
-          = f.text_field :order_label, class: 'mdl-textfield__input'
-      div
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
-          = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
-      div
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          = f.label :search_multi, 'Nhiều tên', class: 'mdl-textfield__label'
-          = text_area_tag :search_multi, nil, class: 'mdl-textfield__input', rows: 10
+      .mdl-selectfield.mdl-js-selectfield.mdl-selectfield--floating-label
+        = f.select :status, options_for_select(Week.statuses.map { |s| [s[0].humanize, s[0]] }, selected: @week.status), {}, class: 'mdl-selectfield__select'
+        label.mdl-selectfield__label{for: :week_status} Status
+        span.mdl-selectfield__error Select a value
+
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.label :order_label, 'Order label on Facebook', class: 'mdl-textfield__label'
+        = f.text_field :order_label, class: 'mdl-textfield__input'
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.label :name, 'Tên hoặc SĐT', class: 'mdl-textfield__label'
+        = text_field_tag :search, nil, class: 'mdl-textfield__input', type: "search", id: 'customer_search_input'
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        = f.label :search_multi, 'Nhiều tên', class: 'mdl-textfield__label'
+        = text_area_tag :search_multi, nil, class: 'mdl-textfield__input', rows: 5
       = submit_tag "Save", class: "mdl-button mdl-js-button"
-h3 Khách hàng
-
-table.mdl-data-table.mdl-js-data-table
-  thead
-    tr
-      th STT
-      th.mdl-data-table__cell--non-numeric Tên
-      th.mdl-data-table__cell--non-numeric Số điện thoại
-      th.mdl-data-table__cell--non-numeric Địa chỉ
-      th.mdl-data-table__cell--non-numeric Ghi chú
-      th.mdl-data-table__cell--non-numeric
-      th.mdl-data-table__cell--non-numeric
-      th.mdl-data-table__cell--non-numeric
-
-  tbody
-    - @week.customers.each_with_index do |customer, index|
-      tr
-        td = index + 1
-        - if customer.name
-          td.mdl-data-table__cell--non-numeric = customer.name
-        - else
-          td.mdl-data-table__cell--non-numeric = link_to customer.facebook_url, customer.facebook_url
-
-        td = " #{customer.phone_number}"
-        td.mdl-data-table__cell--non-numeric = customer.address
-        td.mdl-data-table__cell--non-numeric = customer.ship_time
-        td.mdl-data-table__cell--non-numeric = customer.price
-        td.mdl-data-table__cell--non-numeric = customer.note
-        td
-          a class="copy-btn " data-clipboard-text= "#{customer.attributes_for_copy}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"
-            | Copy
-        td = link_to 'Sửa', edit_admin_customer_path(customer)
-        td = link_to 'Xoá', admin_week_remove_customer_path(@week, customer_id: customer.id), data: {:confirm => 'Chắc chưa?'}, :method => :delete
-  br
-javascript:
-  $(document).ready(function() {
-    var clipboard = new Clipboard('.copy-btn');
-    clipboard.on('success', function(e) {
-    });
-
-    clipboard.on('error', function(e) {
-        console.log(e);
-    });
-    var cache = {};
-    var week_id = "#{@week.id}"
-    $('#customer_search_input').autocomplete({
-      minLength: 2,
-      source: function( request, response ) {
-        var term = request.term;
-        if ( term in cache ) {
-          response( cache[ term ] );
-          return;
-        }
-
-        $.getJSON( "/admin/customers/autocomplete", request, function( data, status, xhr ) {
-          cache[ term ] = data;
-          response( data );
-        });
-      },
-      select: function(event, ui) {
-        var customer_id = ui.item.id;
-        if (!!customer_id) {
-          window.location.href = '/admin/weeks/' + week_id + '/add_customer?customer_id=' + customer_id
-        }
-      }
-    })
-    .autocomplete( "instance" )
-      ._renderItem = function(ul, item) {
-        $(ul).addClass('mdl-list')
-        return $('<li class="mdl-list__item">')
-          .append('<span class="mdl-list__item-primary-content">'+ item.value + ' </span>')
-          .appendTo(ul);
-      };
-  });

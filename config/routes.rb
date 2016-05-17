@@ -19,11 +19,13 @@ Rails.application.routes.draw do
     resources :weeks do
       get :add_customer
       get :get_facebook_orders
+      get :ship_info
       delete :remove_customer
 
       resources :products
     end
 
     resources :orders
+    resources :confirm_orders
   end
 end

@@ -11,10 +11,17 @@ class Admin::WeeksController < Admin::BaseController
   def new
     Week.where(status: Week.statuses[:opening]).update_all(status: Week.statuses[:closed])
     @week = Week.create(status: Week.statuses[:pending])
+    Order.active.includes(:weeks, :customer).select { |order| order.weeks.count < order.num_of_weeks }.each do |order|
+      order.customer.add_order_week(@week)
+    end
     redirect_to edit_admin_week_path(@week)
   end
 
   def edit
+  end
+
+  def ship_info
+    @week = Week.find params[:week_id]
   end
 
   def add_customer
@@ -34,6 +41,7 @@ class Admin::WeeksController < Admin::BaseController
   def get_facebook_orders
     @week = Week.find params[:week_id]
     Sync::FacebookOrder.new(@week).call
+    Sync::FacebookCustomer.new.call
     redirect_to edit_admin_week_path(@week)
   end
 
@@ -43,7 +51,7 @@ class Admin::WeeksController < Admin::BaseController
     if params[:search_multi].present?
       params[:search_multi].split("\r\n").each do |name|
         customer = Customer.where("name ILIKE ?", name).first
-        customer.add_order_week(@week)
+        customer.add_order_week(@week) if customer
       end
     end
     @week.attributes = week_params

@@ -11,32 +11,40 @@ module Sync
     end
 
     def get_order_users
-      return [] unless order_week_label
-      order_week_label['users']['data'].map do |user|
-        customer = Customer.where(facebook_id: user['id']).first_or_create do |c|
-          c.facebook_id = user['id']
-          c.name = user['name']
-        end
-        num_of_weeks = month_users.include?(user['id']) ? 4 : 1
+      return [] unless find_week_label
+      find_week_label['users']['data'].map do |user|
+        customer = find_or_create_customer(user)
+        num_of_weeks = order_month?(user) ? 4 : 1
         customer.add_order_week(week.reload, num_of_weeks)
         customer
       end
     end
 
     private
-    def order_week_label
-      labels.select { |label| label['name'] == self.week.order_label && label['users'].present? }.first
+    def ordered_month_users
+      @ordered_month_users ||= begin
+        month_label = find_month_label
+        return [] unless month_label
+        month_label['users']['data'].map { |user| user['id'] }.compact
+      end
     end
 
-    def month_users
-      @month_users ||= begin
-        month_label = labels.select { |label| label['name'] == ENV['order_month_label'] && label['users'].present? }.first
-        if month_label
-          month_label['users']['data'].map { |user| user['id'] }.compact
-        else
-          []
-        end
+    def order_month?(facebook_user)
+      ordered_month_users.include? (facebook_user['id'])
+    end
+
+    def find_or_create_customer(facebook_user)
+      Customer.where(facebook_id: facebook_user['id']).first_or_create do |customer|
+       customer.name = facebook_user['name']
       end
+    end
+
+    def find_week_label
+      @find_week_label ||= labels.lazy.select { |label| label['name'] == self.week.order_label && label['users'].present? }.first
+    end
+
+    def find_month_label
+      @find_month_label ||= labels.lazy.select { |label| label['name'] == ENV['order_month_label'] && label['users'].present? }.first
     end
 
     def labels

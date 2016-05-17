@@ -15,9 +15,10 @@ class Customer < ActiveRecord::Base
         phone_number: row['Số DT'],
         skin_type: row['Loại Da'],
         allergy: row['Dị ứng'],
-        note: row['Note'],
+        note: [row['Note'], row['Note 2'], row['Note 3']].compact.join("; "),
         prefer: row['Prefer'],
         combo: row['Gói'],
+        facebook_name: row['Facebook Name'],
       }
     end
 
@@ -65,7 +66,17 @@ class Customer < ActiveRecord::Base
     "#{name} - #{phone_number}"
   end
 
-  def attributes_for_copy
+  def add_note(note)
+    self.note ||= ""
+    self.note += ";#{note}"
+    self.save
+  end
+
+  def attributes_for_ship
     [name, phone_number, address, ship_time, price, note].join("&#09;").html_safe
+  end
+
+  def attributes_for_customer_data
+    [position, name, skin_type, allergy, prefer, combo, phone_number, address, note].join("&#09;").html_safe
   end
 end
