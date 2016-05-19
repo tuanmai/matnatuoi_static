@@ -1,6 +1,33 @@
-#home-page
-  = image_tag 'comming-soon', style: "width: 100%"
-  .hisella-messages
-    .hisella-messages-outer
-      #hisella-minimize Gửi tin nhắn facebook
-      #hisella-facebook.fb-page data-adapt-container-width="true" data-height="300" data-hide-cover="false" data-href="https://www.facebook.com/matnatuoi.xlci" data-show-facepile="true" data-show-posts="false" data-small-header="false" data-tabs="messages" data-width="250"
+.mdl-grid.portfolio-max-width
+  .mdl-cell.mdl-cell--12-col
+    .mdl-card__title
+      h2.mdl-card__title-text Menu tuần này
+  - @current_week.products.each do |product|
+    .mdl-cell.mdl-cell--4-col.mdl-cell--6-col-tablet.mdl-card.mdl-shadow--4dp.portfolio-card
+      .mdl-card__media
+        = image_tag product.image_url, class: 'article-image', border: 0
+      .mdl-card__title
+        h2.mdl-card__title-text= product.name
+      .mdl-card__supporting-text= product.description.truncate(150)
+      .mdl-card__actions.mdl-card--border
+        = link_to product.product_url, target: '_blank', class: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent', 'data-upgraded' =>",MaterialButton,MaterialRipple" do
+          | Xem thêm
+          span.mdl-button__ripple-container
+            span.mdl-ripple
+
+  .mdl-cell.mdl-cell--12-col
+    .mdl-card__title
+      h2.mdl-card__title-text Sản phầm các tuần trước
+  - @previous_weeks.each do |week|
+    - week.products.each do |product|
+      .mdl-cell.mdl-cell--4-col.mdl-cell--6-col-tablet.mdl-card.mdl-shadow--4dp.portfolio-card
+        .mdl-card__media
+          = image_tag product.image_url, class: 'article-image', border: 0
+        .mdl-card__title
+          h2.mdl-card__title-text= product.name
+        .mdl-card__supporting-text= product.description.truncate(150)
+        .mdl-card__actions.mdl-card--border
+          = link_to product.product_url, target: '_blank', class: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent', 'data-upgraded' =>",MaterialButton,MaterialRipple" do
+            | Xem thêm
+            span.mdl-button__ripple-container
+              span.mdl-ripple
