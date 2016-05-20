@@ -8,7 +8,12 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+    link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet"
+    link href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic" rel="stylesheet"
     = csrf_meta_tags
   body
-    = yield
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+      = render 'shared/user_nav'
+      .mdl-layout__content
+        = yield
     = render '/shared/facebook_pixel_script'

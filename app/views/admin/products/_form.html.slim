@@ -1,4 +1,5 @@
 = form_for [:admin, @week, @product] do |f|
+  = hidden_field_tag 'product[image_data]'
   - if @product.errors.any?
     #error_explanation
       h2 = "#{pluralize(@product.errors.count, "error")} prohibited this product from being saved:"
@@ -17,12 +18,78 @@
 
   .field.medium-size
     .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-      = f.label :image_url, 'Link Hình', class: 'mdl-textfield__label'
-      = f.text_field :image_url, class: 'mdl-textfield__input'
-
-  .field.medium-size
-    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
       = f.label :product_url, 'Link sản phẩm', class: 'mdl-textfield__label'
       = f.text_field :product_url, class: 'mdl-textfield__input'
+
+  .field
+    .mdl-button
+      span Upload image
+      = file_field_tag :product_image, accept: "image/*"
+
+    #upload-result.mdl-button
+      span Cắt hình
+
+    .vanilla-rotate.mdl-button data-deg="-90"
+      span Quay trái
+
+    .vanilla-rotate.mdl-button data-deg="90"
+      span Quay phải
+
+    #upload-preview
   .actions
     = f.submit class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'
+
+javascript:
+  function imageUpload() {
+  		var $uploadCrop;
+
+  		function readFile(input) {
+   			if (input.files && input.files[0]) {
+  	            var reader = new FileReader();
+
+  	            reader.onload = function (e) {
+  	            	$uploadCrop.croppie('bind', {
+  	            		url: e.target.result,
+                    orientation: 4
+  	            	});
+  	            }
+                $('#upload-preview').addClass('active');
+  	            reader.readAsDataURL(input.files[0]);
+  	        }
+  	        else {
+  		        swal("Sorry - you're browser doesn't support the FileReader API");
+  		    }
+  		}
+
+  		$uploadCrop = $('#upload-preview').croppie({
+  			viewport: {
+  				width: 284,
+  				height: 230,
+  			},
+  			boundary: {
+  				width: 300,
+  				height: 300
+  			},
+  			exif: true,
+        enableOrientation: true
+  		});
+
+  		$('#product_image').on('change', function () { readFile(this); });
+  		$('#upload-result').on('click', function (ev) {
+  			$uploadCrop.croppie('result', {
+  				type: 'canvas',
+  				size: 'origin'
+  			}).then(function (resp) {
+          $('#product_image_data').val(resp.split(";")[1].split(",")[1]);
+          alert("Okie!!!");
+  			});
+  		});
+
+      $('.vanilla-rotate').on('click', function(ev) {
+        $uploadCrop.croppie('rotate', (parseInt($(this).data('deg'))));
+      });
+  	}
+
+
+
+    imageUpload();

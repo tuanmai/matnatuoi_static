@@ -11,3 +11,7 @@ facebook_webhook_verify_token: facebook_webhook_verify_token
 page_access_token: page_access_token
 facebook_page_id: facebook_page_id
 order_month_label: Tháng
+s3_access_key: s3_access_key
+s3_secret_key: s3_secret_key
+s3_bucket: matnatuoi
+s3_region: ap-southeast-1

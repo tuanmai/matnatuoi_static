@@ -1,0 +1,24 @@
+.matnatuoi-header.mdl-layout__header.mdl-layout__header--waterfall
+  .mdl-layout__header-row
+    span.matnatuoi-title.mdl-layout-title
+      img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo")}"
+    .matnatuoi-header-spacer.mdl-layout-spacer
+    .matnatuoi-search-box.mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right.mdl-textfield--full-width
+      label.mdl-button.mdl-js-button.mdl-button--icon for="search-field"
+        i.material-icons search
+      .mdl-textfield__expandable-holder
+        input#search-field.mdl-textfield__input type="text"
+    .matnatuoi-navigation-container
+      nav.matnatuoi-navigation.mdl-navigation
+        = link_to "Trang chủ", root_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{controller.controller_name == 'customers'? 'active' : ''}"
+        = link_to "Hướng dẫn", '#', class: "mdl-navigation__link mdl-typography--text-uppercase #{['weeks', 'products'].include?(controller.controller_name) ? 'active' : ''}"
+        = link_to "Liên Hệ", '#', class: "mdl-navigation__link mdl-typography--text-uppercase #{controller.controller_name == 'orders'? 'active' : ''}"
+    span.matnatuoi-mobile-title.mdl-layout-title
+      img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo.png")}"
+.matnatuoi-drawer.mdl-layout__drawer
+  span.mdl-layout-title
+    img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo")}"
+  nav.mdl-navigation
+    = link_to "Trang chủ", root_path, class: "mdl-navigation__link"
+    = link_to "Hướng dẫn", '#', class: "mdl-navigation__link"
+    = link_to "Liên Hệ", '#', class: "mdl-navigation__link"

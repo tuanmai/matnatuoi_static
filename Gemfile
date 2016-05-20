@@ -44,6 +44,9 @@ gem 'bower'
 gem 'messenger_platform'
 gem 'httparty'
 gem 'fb_page_api'
+gem 'carrierwave-aws'
+gem 'fog'
+gem 'mini_magick'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
