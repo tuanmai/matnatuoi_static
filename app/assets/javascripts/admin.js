@@ -4,4 +4,5 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require clipboard.min
+//= require Croppie/croppie.min
 //= require customers
