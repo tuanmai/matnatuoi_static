@@ -24,6 +24,7 @@ module Sync
     def find_or_create_customer(facebook_user)
       Customer.where(facebook_id: facebook_user['id']).first_or_create do |customer|
        customer.name = facebook_user['name']
+       customer.position = (Customer.unscoped.maximum(:position) || 0) + 1
       end
     end
 
