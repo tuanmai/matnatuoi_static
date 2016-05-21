@@ -10,6 +10,7 @@ table.mdl-data-table.mdl-js-data-table
       th.mdl-data-table__cell--non-numeric Số điện thoại
       th.mdl-data-table__cell--non-numeric Địa chỉ
       th.mdl-data-table__cell--non-numeric Ghi chú
+      th.mdl-data-table__cell--non-numeric Facebook ID
       th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric
@@ -23,6 +24,7 @@ table.mdl-data-table.mdl-js-data-table
         td.mdl-data-table__cell--non-numeric = customer.phone_number
         td.mdl-data-table__cell--non-numeric = customer.address.try(:truncate, 50)
         td.mdl-data-table__cell--non-numeric = customer.note.try(:truncate, 50)
+        td.mdl-data-table__cell--non-numeric = customer.facebook_id
         td.mdl-data-table__cell--non-numeric = link_to 'Xem', admin_customer_path(customer)
         td.mdl-data-table__cell--non-numeric = link_to 'Sửa', edit_admin_customer_path(customer)
         td.mdl-data-table__cell--non-numeric
