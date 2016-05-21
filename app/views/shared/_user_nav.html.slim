@@ -11,7 +11,7 @@
     .matnatuoi-navigation-container
       nav.matnatuoi-navigation.mdl-navigation
         = link_to "Trang chủ", root_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{controller.controller_name == 'customers'? 'active' : ''}"
-        = link_to "Hướng dẫn", '#', class: "mdl-navigation__link mdl-typography--text-uppercase #{['weeks', 'products'].include?(controller.controller_name) ? 'active' : ''}"
+        = link_to "Hướng dẫn", help_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{['weeks', 'products'].include?(controller.controller_name) ? 'active' : ''}"
         = link_to "Liên Hệ", '#', class: "mdl-navigation__link mdl-typography--text-uppercase #{controller.controller_name == 'orders'? 'active' : ''}"
     span.matnatuoi-mobile-title.mdl-layout-title
       img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo.png")}"
@@ -20,5 +20,5 @@
     img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo")}"
   nav.mdl-navigation
     = link_to "Trang chủ", root_path, class: "mdl-navigation__link"
-    = link_to "Hướng dẫn", '#', class: "mdl-navigation__link"
+    = link_to "Hướng dẫn", help_path, class: "mdl-navigation__link"
     = link_to "Liên Hệ", '#', class: "mdl-navigation__link"

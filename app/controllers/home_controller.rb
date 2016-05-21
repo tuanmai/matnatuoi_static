@@ -4,4 +4,7 @@ class HomeController < ApplicationController
     @current_week = Week.last
     @previous_weeks = Week.where.not(id: @current_week.id).last(3)
   end
+
+  def help
+  end
 end
