@@ -22,7 +22,7 @@
     - week.products.each do |product|
       .mdl-cell.mdl-cell--4-col.mdl-cell--6-col-tablet.mdl-card.mdl-shadow--4dp.portfolio-card
         .mdl-card__media
-          = image_tag product.image_url, class: 'article-image', border: 0
+          = image_tag product.image_url, class: 'product-image', border: 0
         .mdl-card__title
           h2.mdl-card__title-text= product.name
         .mdl-card__supporting-text= product.description.truncate(150)
