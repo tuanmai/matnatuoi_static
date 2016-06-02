@@ -32,16 +32,16 @@ module Sync
     end
 
     def extract_customer_attributes(fb_note)
-      skin_type, allergy, prefer, phone_number, address, *customer_notes = *fb_note.split(';')
+      skin_type, allergy, prefer, phone_number, address, price, *customer_notes = *fb_note.split(';')
       note = customer_notes.join(';')
-      if [skin_type, allergy, prefer, phone_number, address].compact.size == 6
+      if address.present?
         {
           skin_type: skin_type,
           allergy: allergy,
           prefer: prefer,
-          combo: combo,
           phone_number: phone_number,
           address: address,
+          price: price,
           note: note,
         }
       end
