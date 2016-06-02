@@ -68,7 +68,7 @@ class Customer < ActiveRecord::Base
 
   def add_note(note)
     self.note ||= ""
-    self.note += ";#{note}"
+    self.note += "\n#{note}" unless self.note.include?(note)
     self.save
   end
 
