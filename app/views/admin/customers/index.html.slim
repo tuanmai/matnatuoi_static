@@ -1,17 +1,18 @@
 h1 Khách hàng
 h3
   = link_to 'Sync From Google Drive', sync_google_drive_admin_customers_path, class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'
-
+  a.copy-btn data-clipboard-text="#{@customers_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard" href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+    | Copy all customers
 table.mdl-data-table.mdl-js-data-table
   thead
     tr
       th STT
       th.mdl-data-table__cell--non-numeric Tên
+      th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric Số điện thoại
       th.mdl-data-table__cell--non-numeric Địa chỉ
       th.mdl-data-table__cell--non-numeric Ghi chú
       th.mdl-data-table__cell--non-numeric Facebook ID
-      th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric
       th.mdl-data-table__cell--non-numeric
@@ -21,15 +22,15 @@ table.mdl-data-table.mdl-js-data-table
       tr
         td = customer.position
         td.mdl-data-table__cell--non-numeric = link_to customer.name, edit_admin_customer_path(customer)
+        td.mdl-data-table__cell--non-numeric
+          a.copy-btn data-clipboard-text="#{customer.attributes_for_customer_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard" href="#"
+            | Copy
         td.mdl-data-table__cell--non-numeric = customer.phone_number
         td.mdl-data-table__cell--non-numeric = customer.address.try(:truncate, 50)
         td.mdl-data-table__cell--non-numeric = customer.note.try(:truncate, 50)
         td.mdl-data-table__cell--non-numeric = customer.facebook_id
         td.mdl-data-table__cell--non-numeric = link_to 'Xem', admin_customer_path(customer)
         td.mdl-data-table__cell--non-numeric = link_to 'Sửa', edit_admin_customer_path(customer)
-        td.mdl-data-table__cell--non-numeric
-          a.copy-btn data-clipboard-text="#{customer.attributes_for_customer_data}" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard" href="#"
-            | Copy
         td.mdl-data-table__cell--non-numeric = link_to 'Xoá', admin_customer_path(customer), data: {:confirm => 'Chắc chưa?'}, :method => :delete
 br
 = link_to 'New Customer', new_admin_customer_path, class: 'btn btn-primary'

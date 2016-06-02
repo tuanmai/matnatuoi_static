@@ -18,6 +18,7 @@ class Admin::WeeksController < Admin::BaseController
   end
 
   def edit
+    @customers_data = @week.customers.map(&:attributes_for_customer_data).join("\n").html_safe
   end
 
   def ship_info
@@ -40,8 +41,8 @@ class Admin::WeeksController < Admin::BaseController
 
   def get_facebook_orders
     @week = Week.find params[:week_id]
-    Sync::FacebookOrder.new(@week).call
     Sync::FacebookCustomer.new.call
+    Sync::FacebookOrder.new(@week).call
     redirect_to edit_admin_week_path(@week)
   end
 

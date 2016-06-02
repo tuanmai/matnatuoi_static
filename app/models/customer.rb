@@ -6,6 +6,8 @@ class Customer < ActiveRecord::Base
   has_many :orders, dependent: :destroy
   has_many :weeks, through: :orders
 
+  before_save :remove_newline_in_note
+
   class << self
     def attributes_from_csv_row(row, parent)
       {
@@ -68,7 +70,7 @@ class Customer < ActiveRecord::Base
 
   def add_note(note)
     self.note ||= ""
-    self.note += "\n#{note}" unless self.note.include?(note)
+    self.note += "#{note}" unless self.note.include?(note)
     self.save
   end
 
@@ -77,6 +79,10 @@ class Customer < ActiveRecord::Base
   end
 
   def attributes_for_customer_data
-    [position, name, skin_type, allergy, prefer, combo, phone_number, address, note].join("&#09;").html_safe
+    [position, name, skin_type, allergy, prefer, phone_number, address, price, '', note, facebook_name, facebook_id].join("&#09;").html_safe
+  end
+
+  def remove_newline_in_note
+    self.note = self.note.gsub("\n", ' ') if self.note.present?
   end
 end

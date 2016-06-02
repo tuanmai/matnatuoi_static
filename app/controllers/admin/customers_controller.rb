@@ -3,6 +3,7 @@ class Admin::CustomersController < Admin::BaseController
 
   def index
     @customers = Customer.all.order(position: :asc)
+    @customers_data = @customers.map(&:attributes_for_customer_data).join("\n").html_safe
   end
 
   def sync_google_drive
