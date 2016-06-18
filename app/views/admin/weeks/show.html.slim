@@ -12,7 +12,7 @@ table.table.table-striped
       th Ghi chú
 
   tbody
-    - @week.customers.each_with_index do |customer, index|
+    - @week.customers.order(position: :asc).each_with_index do |customer, index|
       tr
         td = index + 1
         td = customer.name

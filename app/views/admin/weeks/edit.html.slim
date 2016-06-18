@@ -21,7 +21,7 @@ table.mdl-data-table.mdl-js-data-table
       th.mdl-data-table__cell--non-numeric
 
   tbody
-    - @week.customers.each_with_index do |customer, index|
+    - @week.customers.order(position: :asc).each_with_index do |customer, index|
       tr
         td = index + 1
         - if customer.name
