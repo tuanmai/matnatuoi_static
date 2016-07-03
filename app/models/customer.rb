@@ -79,7 +79,7 @@ class Customer < ActiveRecord::Base
   end
 
   def attributes_for_customer_data
-    [position, name, skin_type, allergy, prefer, phone_number, address, price, '', note, facebook_name, facebook_id].join("&#09;").html_safe
+    [position, name, skin_type, allergy, prefer, phone_number, address, price, ship_time, note, facebook_name, facebook_id].join("&#09;").html_safe
   end
 
   def remove_newline_in_note
