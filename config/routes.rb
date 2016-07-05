@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
   get '/help', to: 'home#help'
+  mount Monologue::Engine, at: '/blog'
 
   resource :facebook_webhook
 
