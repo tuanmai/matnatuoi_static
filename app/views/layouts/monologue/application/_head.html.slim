@@ -1,0 +1,21 @@
+= render "layouts/monologue/application/title"
+meta charset="utf-8" /
+= render "layouts/monologue/application/meta_description"
+= render "layouts/monologue/application/fb_open_graph"
+= render "layouts/monologue/application/twitter_cards"
+meta content="#{Monologue::Config.meta_keyword}" name="keyword" /
+meta content="text/html;charset=utf-8" http-equiv="content-type" /
+meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" /
+= stylesheet_link_tag    "monologue/application"
+= javascript_include_tag "monologue/application"
+meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" /
+= rss_head_link
+= render "layouts/monologue/application/google_analytics"
+
+= display_meta_tags
+= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+= javascript_include_tag 'application', 'data-turbolinks-track' => true
+link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet"
+link href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic" rel="stylesheet"
+= csrf_meta_tags

@@ -10,14 +10,14 @@ Monologue.config do |config|
   config.posts_per_page = 10
   config.preview_size = 1000
 
-  # config.disqus_shortname = "my_disqus_shortname"
+  config.disqus_shortname = "matnatuoi"
 
   # LOCALE
   config.twitter_locale = "en" # "fr"
   config.facebook_like_locale = "en_US" # "fr_CA"
   config.google_plusone_locale = "en"
 
-  # config.layout               = "layouts/application"
+  config.layout               = "layouts/monologue/application"
 
   # ANALYTICS
   # config.gauge_analytics_site_id = "YOUR COGE FROM GAUG.ES"

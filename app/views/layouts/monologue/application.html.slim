@@ -1,0 +1,22 @@
+doctype html
+html lang="en"
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type"
+    = render 'layouts/monologue/application/head'
+  body
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+      = render 'shared/user_nav'
+      .mdl-layout__content
+        .mdl-grid
+          .mdl-cell.mdl-cell--2-col
+          .mdl-cell.mdl-cell--6-col
+            - flash.each do |name, msg|
+              .flash-notice
+                = msg
+            = yield
+          = render 'layouts/monologue/application/sidebar'
+        - if content_for?(:footer)
+          footer
+            = yield :footer
+        = render 'layouts/monologue/application/disqus'
+        = render 'layouts/monologue/application/gauge_analytics'

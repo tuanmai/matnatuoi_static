@@ -1,0 +1,11 @@
+body
+  header.post-header
+    = link_to post.title, post.full_url
+    .posted
+      span data-monologue="time"
+        time datetime="#{post.published_at}"
+          = I18n.localize(post.published_at.to_date, format: :long)
+      span data-monologue="user"
+        = post.user.name
+      span data-monologue="disqus"
+        a href=("#{post.full_url + "#disqus_thread"}")

@@ -1,23 +1,136 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  monologue:
+    posts:
+      pagination:
+        older_posts: "Bài cữ hơn"
+        newer_posts: "Bài mới hơn"
+      social_sharing:
+        tagline: "Chia sẻ"
+      post:
+        readmore: "Xem thêm"
+      "404":
+        title: "The page you were looking for doesn't exist."
+        message: "You may have mistyped the address or the page may have moved."
+    sidebar:
+      categories:
+        title: "Danh mục"
+      latest_posts:
+        title: "Bài viết gần đây"
+      latest_tweets:
+        title: "Latest tweets"
+      tag_cloud:
+        title: "Tags"
+    tags:
+      show:
+        showing_post_with_tag: "Xem bài viết theo tag"
+        show_all_posts: "Xem tất cả bài viết"
+    admin:
+      login:
+        need_auth: "You must first log in to access admin section."
+      users:
+        form:
+          email: "Email"
+          name: "Name"
+          password: "Password"
+          password_confirmation: "Password confirmation"
+        edit:
+          header: "Edit your account"
+          save: "Save"
+        new:
+          create: "Create"
+          header: "Add a user"
+        create:
+          success: "User created"
+        delete:
+          removed: "User '%{user}' removed successfully"
+          failed: "Could not remove user '%{user}'"
+        index:
+          email: "Email"
+          name: "Name"
+          edit: "Edit"
+          delete: "Delete"
+          create: "Create"
+      posts:
+        index:
+          title: "Title"
+          edit: "Edit"
+          delete: "Delete"
+          published: "Yes"
+          not_published: "Not published"
+          status: "Published ?"
+          author: "Author"
+        new:
+          header: "New monologue"
+        create:
+          saved: "Monologue created"
+          saved_with_future_date_and_cache: "Monologue created: posts with a future publication date will not be shown unless cache is cleared on that same day. Cache will most probably be generated before that and won't be refreshed automatically."
+        edit:
+          header: "Edit"
+        update:
+          saved_with_future_date_and_cache: "Monologue saved: posts with a future publication date will not be shown unless cache is cleared on that same day. Cache will most probably be generated before that and won't be refreshed automatically."
+          saved: "Monologue saved"
+        delete:
+          removed: "Monologue removed"
+          fail: "Failed to remove monologue!"
+        form:
+          title: "Title"
+          content: "Content"
+          url:
+            caption: "URL<br/><i> This will be filled by default with '%{default_url}'. You can choose your own URL. Do not add '%{root}' at the beginning of your URL.</i>"
+            generated_title: "your-post-title"
+          published_at: "Published at"
+          published: "Published"
+          save: "Save"
+          preview: "Preview"
+          close: "Close"
+          tags: "Tags"
+      comments:
+        show:
+          recent_comments: "Recent comments"
+      sessions:
+        new:
+          title: "Sign in"
+          email: "Email"
+          password: "Password"
+          button: "Log in"
+        messages:
+          invalid: "Invalid email or password"
+          logged_in: "Logged in!"
+          logged_out: "Logged out!"
+  layouts:
+    monologue:
+      admin:
+        nav_bar:
+          add_a_monologue: "Add a monologue"
+          list_monologues: "List of monologues"
+          comments: "Comments"
+          cache: "Manage cache"
+          edit_user_info: "My account"
+          settings: "Settings"
+          log_out: "Log out"
+          users: "Users"
+  activerecord:
+    attributes:
+      monologue/user:
+        password_digest: "Password confirmation"
+    errors:
+      format: "%{message}"
+    errors:
+      full_messages: "%{message}"
+    errors:
+      models:
+        full_messages: "%{message}"
+        monologue/post:
+          blank: "%{attribute} is required"
+          taken: "%{attribute} is already used by another post"
+          attributes:
+            published_at:
+              blank: "'Published at' is required"
+            url:
+              start_with_slash: "URL can't start with a slash ('/')"
+        monologue/user:
+          blank: "%{attribute} is required"
+          taken: "%{attribute} has already been taken"
+          attributes:
+            password:
+              confirmation: "Password and confirmation doesn't match."
