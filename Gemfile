@@ -47,7 +47,6 @@ gem 'fb_page_api'
 gem 'carrierwave-aws'
 gem 'fog'
 gem 'mini_magick'
-gem 'asset_sync'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

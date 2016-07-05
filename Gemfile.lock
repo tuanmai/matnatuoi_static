@@ -39,10 +39,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (6.0.3)
-    asset_sync (1.1.0)
-      activemodel
-      fog (>= 1.8.0)
-      unf
     autoparse (0.3.3)
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
@@ -405,9 +401,6 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.2)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (2.3.0)
@@ -422,7 +415,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  asset_sync
   bootstrap-sass (~> 3.3.6)
   bower
   byebug
