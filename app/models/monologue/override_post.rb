@@ -8,4 +8,4 @@ module Monologue
   end
 end
 
-::Monologue::Post.include MonologueOverride::OverridePost
+::Monologue::Post.include Monologue::OverridePost
