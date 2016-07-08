@@ -1,6 +1,6 @@
-.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--4dp.portfolio-card data-tags=("#{post.tags.map(&:name).join(' ')}")
+.mdl-cell.mdl-cell--12-col.mdl-cell--12-col-tablet.mdl-card.mdl-shadow--4dp.portfolio-card data-tags=("#{post.tags.map(&:name).join(' ')}")
   .mdl-card__media
-  = image_tag nil, border: 0
+    = image_tag nil, border: 0
   .mdl-card__title
     h2.mdl-card__title-text= link_to post.title, post.full_url
   .mdl-card__supporting-text data-monologue="content"
@@ -11,5 +11,5 @@
       span.mdl-button__ripple-container
         span.mdl-ripple
     tags data-monologue="tags"
-      | Tag: 
+      | Tag:
       = render post.tags

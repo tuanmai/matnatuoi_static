@@ -1,4 +1,4 @@
 = new_sidebar_section_for(t(".title")) do
-  ul.mdl-list
+  ul
     - @recent_posts.each do |post|
-      li.mdl-list__item= link_to post.title, post.full_url
+      li= link_to post.title, post.full_url

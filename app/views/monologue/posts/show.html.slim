@@ -1,0 +1,18 @@
+.portfolio-max-width
+  .mdl-cell.mdl-cell--12-col.mdl-cell--12-col-tablet.mdl-card.mdl-shadow--4dp.portfolio-card
+    .mdl-card__media
+    .mdl-card__title
+      h1.mdl-card__title-text
+        div= @post.title
+    .mdl-card__supporting-text#help-body
+      = raw @post.content
+
+    .tags data-monologue="tags"
+      = render @post.tags
+    = render "monologue/posts/social_sharing"
+    #disqus_thread
+      = render 'layouts/monologue/application/disqus_embed'
+    noscript Please enable JavaScript to view the comments.
+
+  - content_for :meta_description do
+    = truncate(strip_tags(@post.content), length: 155)
