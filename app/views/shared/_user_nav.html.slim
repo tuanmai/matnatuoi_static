@@ -10,8 +10,9 @@
         input#search-field.mdl-textfield__input type="text"
     .matnatuoi-navigation-container
       nav.matnatuoi-navigation.mdl-navigation
-        = link_to "Trang chủ", (main_app||self).root_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{controller.controller_name == 'customers'? 'active' : ''}"
-        = link_to "Hướng dẫn", (main_app||self).help_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{['weeks', 'products'].include?(controller.controller_name) ? 'active' : ''}"
+        = link_to "Trang chủ", (main_app||self).root_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{(controller.controller_name == 'home' && controller.action_name == 'index')? 'active' : ''}"
+        = link_to "Hướng dẫn", (main_app||self).help_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{['help'].include?(controller.action_name) ? 'active' : ''}"
+        = link_to "Blog", (main_app||self).monologue_path, class: "mdl-navigation__link mdl-typography--text-uppercase #{['posts', 'tags'].include?(controller.controller_name) ? 'active' : ''}"
         = link_to "Liên Hệ", '#', class: "mdl-navigation__link mdl-typography--text-uppercase #{controller.controller_name == 'orders'? 'active' : ''}"
     span.matnatuoi-mobile-title.mdl-layout-title
       img.matnatuoi-logo-image src="#{image_url("matnatuoi-logo.png")}"
@@ -21,4 +22,5 @@
   nav.mdl-navigation
     = link_to "Trang chủ", (main_app||self).root_path, class: "mdl-navigation__link"
     = link_to "Hướng dẫn", (main_app||self).help_path, class: "mdl-navigation__link"
+    = link_to "Blog", (main_app||self).monologue_path, class: "mdl-navigation__link"
     = link_to "Liên Hệ", '#', class: "mdl-navigation__link"
