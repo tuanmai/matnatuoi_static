@@ -33,6 +33,15 @@ Monologue.config do |config|
 
 end
 
+# require 'monologue/controllers/monologue/admin/posts_controller'
+
 Monologue::ApplicationController.class_eval do
   include ApplicationHelper
+end
+
+
+Monologue::Admin::PostsController.class_eval do
+  def post_params
+    params.require(:post).permit(:cover_image_url, :cover_image_file, :published, :tag_list,:title,:content,:url,:published_at)
+  end
 end

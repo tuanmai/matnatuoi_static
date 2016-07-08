@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705145912) do
+ActiveRecord::Schema.define(version: 20160708124453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20160705145912) do
     t.text     "content"
     t.string   "url"
     t.datetime "published_at"
+    t.string   "cover_image_url"
+    t.string   "cover_image_file"
   end
 
   add_index "monologue_posts", ["url"], name: "index_monologue_posts_on_url", unique: true, using: :btree

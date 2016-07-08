@@ -53,6 +53,7 @@ en:
       posts:
         index:
           title: "Title"
+          cover_image_url: "Cover Image Url"
           edit: "Edit"
           delete: "Delete"
           published: "Yes"

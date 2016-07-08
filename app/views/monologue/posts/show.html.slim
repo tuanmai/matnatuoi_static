@@ -1,6 +1,7 @@
 .portfolio-max-width
   .mdl-cell.mdl-cell--12-col.mdl-cell--12-col-tablet.mdl-card.mdl-shadow--4dp.portfolio-card
     .mdl-card__media
+      = image_tag @post.cover_image_url || @post.cover_image_file.try(:url), border: 0, width: '100%'
     .mdl-card__title
       h1.mdl-card__title-text
         div= @post.title
