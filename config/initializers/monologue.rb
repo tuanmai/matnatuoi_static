@@ -8,7 +8,7 @@ Monologue.config do |config|
 
   config.admin_force_ssl = false
   config.posts_per_page = 10
-  config.preview_size = 1000
+  config.preview_size = 200
 
   config.disqus_shortname = "matnatuoi"
 
@@ -31,4 +31,8 @@ Monologue.config do |config|
   config.facebook_logo = 'logo.png'
   config.show_rss_icon = true
 
+end
+
+Monologue::ApplicationController.class_eval do
+  include ApplicationHelper
 end

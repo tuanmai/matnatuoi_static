@@ -1,7 +1,15 @@
-section data-tags=("#{post.tags.map(&:name).join(' ')}") 
-  = render partial: 'monologue/posts/post_header', locals: {post: post}
-  .content data-monologue="content"
+.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--4dp.portfolio-card data-tags=("#{post.tags.map(&:name).join(' ')}")
+  .mdl-card__media
+  = image_tag nil, border: 0
+  .mdl-card__title
+    h2.mdl-card__title-text= link_to post.title, post.full_url
+  .mdl-card__supporting-text data-monologue="content"
     = truncate_html(post.content, length: Monologue::Config.preview_size, omission: '...')
-  .tags data-monologue="tags"
-    = render post.tags
-  = link_to t(".readmore"), post.full_url, class: "button"
+  .mdl-card__actions.mdl-card--border
+    = link_to post.full_url, class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent', 'data-upgraded' =>",MaterialButton,MaterialRipple" do
+      = t(".readmore")
+      span.mdl-button__ripple-container
+        span.mdl-ripple
+    tags data-monologue="tags"
+      | Tag: 
+      = render post.tags

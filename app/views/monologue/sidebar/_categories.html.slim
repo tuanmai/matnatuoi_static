@@ -1,0 +1,5 @@
+= new_sidebar_section_for(t(".title")) do
+  ul
+    - @tags.each do |tag|
+      li#tag
+        = link_to "#{tag.name} (#{tag.frequency})", tag_url(tag)

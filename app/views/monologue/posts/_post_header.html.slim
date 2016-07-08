@@ -1,6 +1,6 @@
 body
   header.post-header
-    = link_to post.title, post.full_url
+    h4= link_to post.title, post.full_url
     .posted
       span data-monologue="time"
         time datetime="#{post.published_at}"
