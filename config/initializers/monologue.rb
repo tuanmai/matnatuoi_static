@@ -57,3 +57,16 @@ Monologue::Admin::PostsController.class_eval do
     params.require(:post).permit(:cover_image_url, :cover_image_file, :published, :tag_list,:title,:content,:url,:published_at)
   end
 end
+
+Monologue::PostsController.class_eval do
+  before_action :update_facebook_meta_tags, only: :show
+
+  def update_facebook_meta_tags
+    post = Monologue::Post.published.where("url = :url", {url: params[:post_url]}).first
+    if post
+      self.facebook_meta_name = post.title
+      self.facebook_meta_image = ActionController::Base.helpers.image_url('matnatuoi-logo')
+      self.facebook_meta_description = post.content.truncate(Monologue::Config.preview_size, omission: '...')
+    end
+  end
+end
