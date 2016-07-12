@@ -2,10 +2,10 @@ doctype html
 html lang="en"
   head
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type"
+    = render 'layouts/monologue/application/head'
     meta(content=("#{ facebook_meta_image }") property="og:image")
     meta(content=("#{ facebook_meta_name }") property="og:title")
     meta content=("#{ facebook_meta_description }") property="og:description"
-    = render 'layouts/monologue/application/head'
   body
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
       = render 'shared/user_nav'
