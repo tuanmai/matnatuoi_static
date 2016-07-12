@@ -66,7 +66,7 @@ Monologue::PostsController.class_eval do
     if post
       self.facebook_meta_name = post.title
       self.facebook_meta_image = ActionController::Base.helpers.image_url('matnatuoi-logo')
-      self.facebook_meta_description = view_context.truncate_html(post.content, length: Monologue::Config.preview_size, omission: '...')
+      self.facebook_meta_description = view_context.strip_tags(truncate_html(post.content, length: Monologue::Config.preview_size, omission: '...'))
     end
   end
 end
