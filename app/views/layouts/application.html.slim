@@ -4,6 +4,9 @@ html
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     title Mặt nạ TƯơi - Xinh Lắm Cơ Í
     meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta(content=("#{ facebook_meta_image }") property="og:image")
+    meta content=("#{ facebook_meta_name }") property="og:title"
+    meta content=("#{ facebook_meta_description }") property="og:description"
     = display_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
