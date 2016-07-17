@@ -10,11 +10,11 @@ class Week < ActiveRecord::Base
   scope :with_products, -> { joins(:products).group('weeks.id').having('count(products.id) > 0') }
 
   def attributes_for_ship
-    customers.map(&:attributes_for_ship).join("&#10;").html_safe
+    customers.order(position: :asc).map(&:attributes_for_ship).join("&#10;").html_safe
   end
 
   def attributes_for_customer_data
-    customers.map(&:attributes_for_customer_data).join("&#10;").html_safe
+    customers.order(position: :asc).map(&:attributes_for_customer_data).join("&#10;").html_safe
   end
 
   private
