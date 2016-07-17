@@ -75,7 +75,7 @@ class Customer < ActiveRecord::Base
   end
 
   def attributes_for_ship
-    [name, phone_number, address, ship_time, price, note].join("&#09;").html_safe
+    [name, phone_number, address, district, ship_time, price, note].join("&#09;").html_safe
   end
 
   def attributes_for_customer_data
