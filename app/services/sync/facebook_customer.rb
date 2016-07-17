@@ -42,7 +42,7 @@ module Sync
           phone_number: phone_number,
           address: address,
           price: price,
-          ship_time: ship_time
+          ship_time: ship_time,
           note: note,
         }
       end
