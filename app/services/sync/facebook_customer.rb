@@ -7,8 +7,6 @@ module Sync
     private
     def sync_customers_from_notes
       Customer.update_from_google_drive
-      Customer.reset_prices
-      Customer.reset_notes
       FbPageApi.admin_notes.collection.map do |note|
         sync_customer_from_node(note)
       end
