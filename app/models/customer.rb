@@ -20,6 +20,7 @@ class Customer < ActiveRecord::Base
         note: [row['Note'], row['Note 2'], row['Note 3']].compact.join("; "),
         prefer: row['Prefer'],
         combo: row['Gói'],
+        district: row['Quận'],
         facebook_name: row['Facebook Name'],
       }
     end
@@ -37,6 +38,14 @@ class Customer < ActiveRecord::Base
       sheet = google_drive.sheet_file
       worksheet = sheet.worksheet_by_title(ENV['khach_hang_sheet'])
       self.create_from_csv(csv_string: worksheet.export_as_string)
+    end
+
+    def reset_prices
+      Customer.all.update_all(price: 0)
+    end
+
+    def reset_notes
+      Customer.all.update_all(note: '')
     end
   end
 

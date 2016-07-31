@@ -7,6 +7,8 @@ module Sync
     private
     def sync_customers_from_notes
       Customer.update_from_google_drive
+      Customer.reset_prices
+      Customer.reset_notes
       FbPageApi.admin_notes.collection.map do |note|
         sync_customer_from_node(note)
       end
@@ -16,8 +18,10 @@ module Sync
       customer = find_or_create_customer(note['user'])
       new_attributes =  extract_customer_attributes(note['body'])
       if new_attributes
+        new_note  = new_attributes.delete(:note)
         customer.attributes = new_attributes
         customer.save
+        customer.add_note(new_note)
       else
         customer.add_note(note['body'])
       end
