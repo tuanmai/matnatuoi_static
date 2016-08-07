@@ -22,6 +22,7 @@ class Customer < ActiveRecord::Base
         combo: row['Gói'],
         district: row['Quận'],
         facebook_name: row['Facebook Name'],
+        facebook_id: row['Facebook ID'],
       }
     end
 
