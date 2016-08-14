@@ -20,6 +20,7 @@ class Customer < ActiveRecord::Base
         note: [row['Note'], row['Note 2'], row['Note 3']].compact.join("; "),
         prefer: row['Prefer'],
         combo: row['Gói'],
+        ward: row['Phường'],
         district: row['Quận'],
         facebook_name: row['Facebook Name'],
         facebook_id: row['Facebook ID'],
@@ -86,15 +87,19 @@ class Customer < ActiveRecord::Base
 
   def attributes_for_ship
     ship_note = [ship_time, note].join(';')
-    [name, phone_number, address, district, price, ship_note].join("&#09;").html_safe
+    [name, phone_number, address, ward, district, price, ship_note].join("&#09;").html_safe
   end
 
   def attributes_for_customer_data
     [
       position, name, skin_type, allergy, prefer,
-      phone_number, address, district, price,
+      phone_number, address, ward, district, price,
       ship_time, note, facebook_name, facebook_id
     ].join("&#09;").html_safe
+  end
+
+  def new_facebook_format_note
+    [skin_type, allergy, phone_number, address, ward, district, price, ship_time, note].join(';')
   end
 
   def remove_newline_in_note
