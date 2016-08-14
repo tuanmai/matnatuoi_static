@@ -29,11 +29,11 @@ ActiveAdmin.register Customer do
     column :address, sortable: false do |address|
       best_in_place address, :address, as: :textarea, url: [:activeadmin, address]
     end
-    column :district, sortable: :district do |district|
-      best_in_place district, :district, as: :textarea, url: [:activeadmin, district]
-    end
     column :ward, sortable: :ward do |ward|
       best_in_place ward, :ward, as: :textarea, url: [:activeadmin, ward]
+    end
+    column :district, sortable: :district do |district|
+      best_in_place district, :district, as: :textarea, url: [:activeadmin, district]
     end
     column :price, sortable: false do |price|
       best_in_place price, :price, as: :textarea, url: [:activeadmin, price]
@@ -52,6 +52,7 @@ ActiveAdmin.register Customer do
     column :name
     column :phone_number
     column :address
+    column :ward
     column :district
     column :ship_time
     column :note
