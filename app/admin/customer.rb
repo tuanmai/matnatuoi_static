@@ -54,6 +54,7 @@ ActiveAdmin.register Customer do
     column :address
     column :ward
     column :district
+    column :price
     column :ship_time
     column :note
   end
