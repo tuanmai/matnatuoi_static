@@ -41,7 +41,6 @@ class Admin::WeeksController < Admin::BaseController
 
   def get_facebook_orders
     @week = Week.find params[:week_id]
-    Customer.update_from_google_drive
     Sync::FacebookCustomer.new.call
     Sync::FacebookOrder.new(@week).call
     redirect_to edit_admin_week_path(@week)
