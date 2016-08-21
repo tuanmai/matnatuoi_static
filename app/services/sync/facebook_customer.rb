@@ -57,7 +57,7 @@ module Sync
     def sync_customer_from_node(note)
       customer = find_or_create_customer(note['user'])
       new_attributes =  extract_customer_attributes(note['body'])
-      if new_attributes && customer.note_body != note['body']
+      if new_attributes && (customer.note_body.blank? || customer.note_body != note['body'])
         new_note  = new_attributes.delete(:note)
         customer.attributes = new_attributes
         customer.note_id = note['id']
