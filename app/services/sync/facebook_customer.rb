@@ -4,9 +4,30 @@ module Sync
       sync_customers_from_notes
     end
 
+    def sync_back
+      count = 0
+      Customer.where.not(note_id: nil).each do |customer|
+        if customer.facebook_id && customer.new_facebook_format_note != customer.note_body
+          # p count += 1
+          # p "--------- Delete #{customer.note_body}---------------"
+          # p "--------- Create #{customer.new_facebook_format_note}---------------"
+          FbPageApi.admin_notes.delete(customer.note_id) rescue nil
+          FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
+        end
+      end
+      1
+    end
+
+    def sync_back_single(customer_id)
+      customer = Customer.find(customer_id)
+      if customer.facebook_id && customer.note_id && customer.new_facebook_format_note != customer.note_body
+        FbPageApi.admin_notes.delete(customer.note_id)
+        FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
+      end
+    end
+
     private
     def sync_customers_from_notes
-      Customer.update_from_google_drive
       FbPageApi.admin_notes.collection.map do |note|
         sync_customer_from_node(note)
       end
@@ -36,9 +57,12 @@ module Sync
     def sync_customer_from_node(note)
       customer = find_or_create_customer(note['user'])
       new_attributes =  extract_customer_attributes(note['body'])
-      if new_attributes
+      if new_attributes && customer.note_body != note['body']
         new_note  = new_attributes.delete(:note)
         customer.attributes = new_attributes
+        customer.note_id = note['id']
+        customer.note_body = note['body']
+        customer.note_data = note
         customer.save
         customer.add_note(new_note)
       else

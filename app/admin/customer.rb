@@ -12,6 +12,20 @@ ActiveAdmin.register Customer do
   filter :address
   filter :district
 
+  action_item :sync_back_facebook do
+    link_to 'Sync Back Facebook', sync_back_activeadmin_customers_path, method: :post
+  end
+
+  member_action :sync_back, method: :post do
+    Sync::FacebookCustomer.new.sync_back_single(resource.id)
+    redirect_to :back, notice: 'Synced Back to Facebook'
+  end
+
+  collection_action :sync_back, method: :post do
+    Sync::FacebookCustomer.new.sync_back
+    redirect_to :back, notice: 'Synced Back to Facebook'
+  end
+
   index do
     column :position
     column :name, sortable: false do |name|
@@ -45,7 +59,10 @@ ActiveAdmin.register Customer do
       best_in_place note, :note, as: :textarea, url: [:activeadmin, note]
     end
 
-    actions
+
+    actions defaults: true do |customer|
+      link_to 'Sync Back', sync_back_activeadmin_customer_path(customer), method: :post
+    end
   end
 
   csv force_quotes: true do

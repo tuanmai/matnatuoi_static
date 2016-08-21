@@ -8,6 +8,8 @@ class Customer < ActiveRecord::Base
 
   before_save :remove_newline_in_note
 
+  serialize :note_data, Hash
+
   class << self
     def attributes_from_csv_row(row, parent)
       {

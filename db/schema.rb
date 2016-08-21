@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160813044103) do
+ActiveRecord::Schema.define(version: 20160820040848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,9 @@ ActiveRecord::Schema.define(version: 20160813044103) do
     t.string   "facebook_id"
     t.string   "facebook_name"
     t.string   "ward"
+    t.string   "note_id"
+    t.string   "note_body"
+    t.text     "note_data"
   end
 
   create_table "facebook_messages", force: :cascade do |t|
