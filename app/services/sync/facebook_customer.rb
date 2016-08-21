@@ -20,8 +20,8 @@ module Sync
 
     def sync_back_single(customer_id)
       customer = Customer.find(customer_id)
-      if customer.facebook_id && customer.note_id && customer.new_facebook_format_note != customer.note_body
-        FbPageApi.admin_notes.delete(customer.note_id)
+      if customer.facebook_id && customer.new_facebook_format_note != customer.note_body
+        FbPageApi.admin_notes.delete(customer.note_id) rescue nil
         FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
       end
     end
