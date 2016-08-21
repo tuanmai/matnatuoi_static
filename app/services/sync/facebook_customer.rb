@@ -11,8 +11,8 @@ module Sync
           # p count += 1
           # p "--------- Delete #{customer.note_body}---------------"
           # p "--------- Create #{customer.new_facebook_format_note}---------------"
-          FbPageApi.admin_notes.delete(customer.note_id) rescue nil
-          FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
+          # FbPageApi.admin_notes.delete(customer.note_id) rescue nil
+          # FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
         end
       end
       1
