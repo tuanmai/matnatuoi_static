@@ -3,7 +3,7 @@ ActiveAdmin.register Customer do
   config.paginate = false
 
   permit_params :position, :name, :skin_type, :phone_number, :address, :district, :price,
-                :ship_time, :note, :facebook_id, :facebook_name
+                :ship_time, :note, :facebook_id, :facebook_name, :ward
 
   filter :weeks
   filter :name
@@ -27,7 +27,9 @@ ActiveAdmin.register Customer do
   end
 
   index do
-    column :position
+    column :position, sortable: false do |position|
+      best_in_place position, :position, as: :textarea, url: [:activeadmin, position]
+    end
     column :name, sortable: false do |name|
       best_in_place name, :name, as: :textarea, url: [:activeadmin, name]
     end
