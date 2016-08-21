@@ -64,7 +64,6 @@ module Sync
         customer.note_body = note['body']
         customer.note_data = note
         customer.save
-        customer.add_note(new_note)
       else
         customer.add_note(note['body'])
       end
