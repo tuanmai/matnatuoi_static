@@ -3,7 +3,7 @@ ActiveAdmin.register Customer do
   config.paginate = false
 
   permit_params :position, :name, :skin_type, :phone_number, :address, :district, :price,
-                :ship_time, :note, :facebook_id, :facebook_name, :ward
+                :ship_time, :note, :facebook_id, :facebook_name, :ward, :allergy
 
   filter :weeks
   filter :name
