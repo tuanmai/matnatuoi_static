@@ -1,6 +1,7 @@
 module Sync
   class FacebookCustomer
     def call
+      Customer.update_all(note: '')
       sync_customers_from_notes
     end
 
