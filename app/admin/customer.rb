@@ -8,6 +8,7 @@ ActiveAdmin.register Customer do
   filter :weeks
   filter :name
   filter :skin_type
+  filter :allergy
   filter :phone_number
   filter :address
   filter :district
