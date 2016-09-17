@@ -37,7 +37,7 @@ ActiveAdmin.register Customer do
     column :skin_type, sortable: false do |skin_type|
       best_in_place skin_type, :skin_type, as: :textarea, url: [:activeadmin, skin_type]
     end
-    column :allergy, sortable: false do |allergy|
+    column :allergy do |allergy|
       best_in_place allergy, :allergy, as: :textarea, url: [:activeadmin, allergy]
     end
     column :phone_number, sortable: false do |phone_number|
