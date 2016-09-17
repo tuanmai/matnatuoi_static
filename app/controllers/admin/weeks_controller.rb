@@ -11,9 +11,6 @@ class Admin::WeeksController < Admin::BaseController
   def new
     Week.where(status: Week.statuses[:opening]).update_all(status: Week.statuses[:closed])
     @week = Week.create(status: Week.statuses[:pending])
-    Order.active.includes(:weeks, :customer).select { |order| order.weeks.count < order.num_of_weeks }.each do |order|
-      order.customer.add_order_week(@week)
-    end
     redirect_to edit_admin_week_path(@week)
   end
 
