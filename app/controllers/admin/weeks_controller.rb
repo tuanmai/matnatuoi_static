@@ -38,9 +38,8 @@ class Admin::WeeksController < Admin::BaseController
 
   def get_facebook_orders
     @week = Week.find params[:week_id]
-    Sync::FacebookCustomer.new.call
-    Sync::FacebookOrder.new(@week).call
-    redirect_to edit_admin_week_path(@week)
+    SyncFacebookOrderWorker.perform_async(@week.id)
+    redirect_to edit_admin_week_path(@week), notice: 'Đang sync, vui lòng đợi trong giây lát.'
   end
 
   # PATCH/PUT /weeks/1

@@ -50,6 +50,7 @@ gem 'mini_magick'
 gem 'monologue'
 gem 'activeadmin', '~> 1.0.0.pre4'
 gem 'best_in_place'
+gem 'sidekiq'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

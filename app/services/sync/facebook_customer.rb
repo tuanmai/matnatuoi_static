@@ -1,7 +1,6 @@
 module Sync
   class FacebookCustomer
     def call
-      Customer.update_all(note: '')
       sync_customers_from_notes
     end
 
@@ -29,9 +28,18 @@ module Sync
 
     private
     def sync_customers_from_notes
-      FbPageApi.admin_notes.collection.map do |note|
-        sync_customer_from_node(note)
+      admin_notes_by_customer.each do |customer_id, notes|
+        sync_customer_from_nodes(notes)
       end
+    end
+
+    def admin_notes_by_customer
+      notes_by_customer = {}
+      FbPageApi.admin_notes.collection.each do |note|
+        notes_by_customer[note['user']['id']] ||= []
+        notes_by_customer[note['user']['id']] << note
+      end
+      notes_by_customer
     end
 
     def update_notes
@@ -55,20 +63,28 @@ module Sync
       end
     end
 
-    def sync_customer_from_node(note)
-      customer = find_or_create_customer(note['user'])
-      new_attributes =  extract_customer_attributes(note['body'])
-      if new_attributes
-        new_note  = new_attributes.delete(:note)
-        customer.attributes = new_attributes
-        customer.note_id = note['id']
-        customer.note_body = note['body']
-        customer.note_data = note
-        customer.save
-        customer.add_note(new_note)
-      else
-        customer.add_note(note['body'])
+    def sync_customer_from_nodes(notes)
+      customer = find_or_create_customer(notes.first['user'])
+      final_note = ''
+      notes.each do |note|
+        new_attributes =  extract_customer_attributes(note['body'])
+        if new_attributes
+          new_note  = new_attributes.delete(:note)
+          if customer.note_body.blank? || customer.note_body != note['body']
+            customer.attributes = new_attributes
+            customer.note_id = note['id']
+            customer.note_body = note['body']
+            customer.note_data = note
+            customer.save
+            # customer.add_note(new_note)
+          end
+          final_note = final_note == '' ? new_note : final_note + "; #{new_note}"
+        else
+          final_note = final_note == '' ? note['body'] : final_note + "; #{note['body']}"
+        end
       end
+      customer.note = final_note
+      customer.save
       customer
     end
 
