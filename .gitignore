@@ -14,4 +14,6 @@
 
 # Ignore application configuration
 /config/application.yml
+/config/application.dev.yml
+/config/application.prod.yml
 /bower_components/

@@ -1,5 +1,5 @@
 class SyncFacebookOrderWorker
-  include Sidekiq::Worker
+  include SuckerPunch::Job
 
   def perform(week_id)
     week = Week.find(week_id)
