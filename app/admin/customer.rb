@@ -77,6 +77,7 @@ ActiveAdmin.register Customer do
     column :price
     column :ship_time
     column :note
+    column :allergy
   end
 
 end
