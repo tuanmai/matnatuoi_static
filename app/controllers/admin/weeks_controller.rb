@@ -11,9 +11,6 @@ class Admin::WeeksController < Admin::BaseController
   def new
     Week.where(status: Week.statuses[:opening]).update_all(status: Week.statuses[:closed])
     @week = Week.create(status: Week.statuses[:pending])
-    Order.active.includes(:weeks, :customer).select { |order| order.weeks.count < order.num_of_weeks }.each do |order|
-      order.customer.add_order_week(@week)
-    end
     redirect_to edit_admin_week_path(@week)
   end
 
@@ -41,10 +38,8 @@ class Admin::WeeksController < Admin::BaseController
 
   def get_facebook_orders
     @week = Week.find params[:week_id]
-    Customer.update_from_google_drive
-    Sync::FacebookCustomer.new.call
-    Sync::FacebookOrder.new(@week).call
-    redirect_to edit_admin_week_path(@week)
+    SyncFacebookOrderWorker.perform_async(@week.id)
+    redirect_to edit_admin_week_path(@week), notice: 'Đang sync, vui lòng đợi trong giây lát.'
   end
 
   # PATCH/PUT /weeks/1

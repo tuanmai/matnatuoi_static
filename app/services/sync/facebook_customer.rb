@@ -4,23 +4,87 @@ module Sync
       sync_customers_from_notes
     end
 
-    private
-    def sync_customers_from_notes
-      Customer.update_from_google_drive
-      FbPageApi.admin_notes.collection.map do |note|
-        sync_customer_from_node(note)
+    def sync_back
+      count = 0
+      Customer.where.not(note_id: nil).each do |customer|
+        if customer.facebook_id && customer.new_facebook_format_note != customer.note_body
+          # p count += 1
+          # p "--------- Delete #{customer.note_body}---------------"
+          # p "--------- Create #{customer.new_facebook_format_note}---------------"
+          # FbPageApi.admin_notes.delete(customer.note_id) rescue nil
+          # FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
+        end
+      end
+      1
+    end
+
+    def sync_back_single(customer_id)
+      customer = Customer.find(customer_id)
+      if customer.facebook_id && customer.new_facebook_format_note != customer.note_body
+        FbPageApi.admin_notes.delete(customer.note_id) rescue nil
+        FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
       end
     end
 
-    def sync_customer_from_node(note)
-      customer = find_or_create_customer(note['user'])
-      new_attributes =  extract_customer_attributes(note['body'])
-      if new_attributes
-        customer.attributes = new_attributes
-        customer.save
-      else
-        customer.add_note(note['body'])
+    private
+    def sync_customers_from_notes
+      admin_notes_by_customer.each do |customer_id, notes|
+        sync_customer_from_nodes(notes)
       end
+    end
+
+    def admin_notes_by_customer
+      notes_by_customer = {}
+      FbPageApi.admin_notes.collection.each do |note|
+        notes_by_customer[note['user']['id']] ||= []
+        notes_by_customer[note['user']['id']] << note
+      end
+      notes_by_customer
+    end
+
+    def update_notes
+      FbPageApi.admin_notes.collection.map do |note|
+        customer = Customer.where(facebook_id: note['user']['id']).first
+        new_attributes =  extract_customer_attributes(note['body'])
+        if customer && new_attributes
+          # p note['body']
+          FbPageApi.admin_notes.delete(note['id'])
+        end
+      end
+
+      Customer.all.each do |customer|
+        begin
+          if customer.facebook_id.present? && !customer.facebook_id.include?('E+')
+            # p "#{customer.facebook_id} - #{customer.new_facebook_format_note}"
+            FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
+          end
+        rescue
+        end
+      end
+    end
+
+    def sync_customer_from_nodes(notes)
+      customer = find_or_create_customer(notes.first['user'])
+      final_note = ''
+      notes.each do |note|
+        new_attributes =  extract_customer_attributes(note['body'])
+        if new_attributes
+          new_note  = new_attributes.delete(:note)
+          if customer.note_body.blank? || customer.note_body != note['body']
+            customer.attributes = new_attributes
+            customer.note_id = note['id']
+            customer.note_body = note['body']
+            customer.note_data = note
+            customer.save
+            # customer.add_note(new_note)
+          end
+          final_note = final_note == '' ? new_note : final_note + "; #{new_note}"
+        else
+          final_note = final_note == '' ? note['body'] : final_note + "; #{note['body']}"
+        end
+      end
+      customer.note = final_note
+      customer.save
       customer
     end
 
@@ -32,15 +96,16 @@ module Sync
     end
 
     def extract_customer_attributes(fb_note)
-      skin_type, allergy, prefer, phone_number, address, price, ship_time, *customer_notes = *fb_note.split(';')
+      skin_type, allergy, phone_number, address, ward, district, price, ship_time, *customer_notes = *fb_note.split(';')
       note = customer_notes.join(';')
       if address.present?
         {
           skin_type: skin_type,
           allergy: allergy,
-          prefer: prefer,
           phone_number: phone_number,
           address: address,
+          ward: ward,
+          district: district,
           price: price,
           ship_time: ship_time,
           note: note,

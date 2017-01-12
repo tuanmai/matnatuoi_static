@@ -33,7 +33,7 @@ gem 'newrelic_rpm'
 
 gem 'devise'
 
-gem 'will_paginate'
+# gem 'will_paginate', "3.0.pre2"
 
 gem 'bootstrap-sass', '~> 3.3.6'
 
@@ -48,6 +48,9 @@ gem 'carrierwave-aws'
 gem 'fog'
 gem 'mini_magick'
 gem 'monologue'
+gem 'activeadmin', '~> 1.0.0.pre4'
+gem 'best_in_place'
+gem 'sucker_punch'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
