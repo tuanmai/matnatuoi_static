@@ -13,13 +13,18 @@ ActiveAdmin.register Customer do
   filter :address
   filter :district
 
-  action_item :sync_back_facebook do
-    link_to 'Sync Back Facebook', sync_back_activeadmin_customers_path, method: :post
+  action_item :download_all_phonenumber do
+    link_to 'Download phone', download_all_phonenumber_activeadmin_customers_path, method: :post
   end
 
-  member_action :sync_back, method: :post do
-    Sync::FacebookCustomer.new.sync_back_single(resource.id)
-    redirect_to :back, notice: 'Synced Back to Facebook'
+  collection_action :download_all_phonenumber, method: :post do
+    csv = CSV.generate do |csv|
+			csv << ["Name", "Phone"]
+      Customer.all.each do |customer|
+				csv << [customer.name, customer.phone_number.to_s]
+			end
+    end
+    send_data csv, type: 'text/csv; header=present', disposition: "attachment; filename=phone_numbers.csv"
   end
 
   collection_action :sync_back, method: :post do
