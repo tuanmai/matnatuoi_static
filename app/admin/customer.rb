@@ -66,11 +66,6 @@ ActiveAdmin.register Customer do
     column :note, sortable: false do |note|
       best_in_place note, :note, as: :textarea, url: [:activeadmin, note]
     end
-
-
-    actions defaults: true do |customer|
-      link_to 'Sync Back', sync_back_activeadmin_customer_path(customer), method: :post
-    end
   end
 
   csv force_quotes: true do
