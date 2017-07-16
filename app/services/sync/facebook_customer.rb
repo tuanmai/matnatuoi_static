@@ -13,32 +13,13 @@ module Sync
 
     def admin_notes_by_customer
       notes_by_customer = {}
-      FbPageApi.admin_notes.collection.each do |note|
-        notes_by_customer[note['user']['id']] ||= []
-        notes_by_customer[note['user']['id']] << note
+      FacebookPageToken.all.each do |page|
+        FbPageApi.admin_notes(parent_id: page.page_id, page_access_token: page.access_token).collection.each do |note|
+          notes_by_customer[note['user']['id']] ||= []
+          notes_by_customer[note['user']['id']] << note
+        end
       end
       notes_by_customer
-    end
-
-    def update_notes
-      FbPageApi.admin_notes.collection.map do |note|
-        customer = Customer.where(facebook_id: note['user']['id']).first
-        new_attributes =  extract_customer_attributes(note['body'])
-        if customer && new_attributes
-          # p note['body']
-          FbPageApi.admin_notes.delete(note['id'])
-        end
-      end
-
-      Customer.all.each do |customer|
-        begin
-          if customer.facebook_id.present? && !customer.facebook_id.include?('E+')
-            # p "#{customer.facebook_id} - #{customer.new_facebook_format_note}"
-            FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
-          end
-        rescue
-        end
-      end
     end
 
     def sync_customer_from_nodes(notes)

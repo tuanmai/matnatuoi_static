@@ -11,13 +11,21 @@ module Sync
     end
 
     def get_order_users
-      return [] unless find_week_label
-      FbPageApi.label_users(find_week_label['id']).collection.map do |user|
-        customer = find_or_create_customer(user)
-        num_of_weeks = 1
-        customer.add_order_week(week.reload, num_of_weeks)
-        customer
-      end
+      FacebookPageToken.all.map do |page|
+        if find_week_label(page.page_id)
+          p find_week_label(page.page_id)
+          p @find_week_label
+          fb_label_users =FbPageApi.label_users(find_week_label(page.page_id)['id'], { parent_id: page.page_id, page_access_token: page.access_token }) 
+          fb_label_users.collection.map do |user|
+            customer = find_or_create_customer(user)
+            num_of_weeks = 1
+            customer.add_order_week(week.reload, num_of_weeks)
+            customer
+          end
+        else
+          []
+        end
+      end.flatten
     end
 
     private
@@ -28,12 +36,16 @@ module Sync
       end
     end
 
-    def find_week_label
-      @find_week_label ||= labels.lazy.select { |label| label['name'] == self.week.order_label }.first
+    def find_week_label(page_id)
+      @find_week_label ||= {}
+      @find_week_label[page_id] ||= labels[page_id].lazy.select { |label| label['name'] == self.week.order_label }.first
     end
 
     def labels
-      @labels ||= FbPageApi.labels.collection
+      @labels ||= FacebookPageToken.all.inject({}) do |rs, page|
+        rs[page.page_id] = FbPageApi.labels(parent_id: page.page_id, page_access_token: page.access_token).collection
+        rs
+      end
     end
   end
 end
