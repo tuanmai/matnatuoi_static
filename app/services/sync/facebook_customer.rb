@@ -4,28 +4,6 @@ module Sync
       sync_customers_from_notes
     end
 
-    def sync_back
-      count = 0
-      Customer.where.not(note_id: nil).each do |customer|
-        if customer.facebook_id && customer.new_facebook_format_note != customer.note_body
-          # p count += 1
-          # p "--------- Delete #{customer.note_body}---------------"
-          # p "--------- Create #{customer.new_facebook_format_note}---------------"
-          # FbPageApi.admin_notes.delete(customer.note_id) rescue nil
-          # FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
-        end
-      end
-      1
-    end
-
-    def sync_back_single(customer_id)
-      customer = Customer.find(customer_id)
-      if customer.facebook_id && customer.new_facebook_format_note != customer.note_body
-        FbPageApi.admin_notes.delete(customer.note_id) rescue nil
-        FbPageApi.admin_notes.create(user_id: customer.facebook_id, body: customer.new_facebook_format_note)
-      end
-    end
-
     private
     def sync_customers_from_notes
       admin_notes_by_customer.each do |customer_id, notes|

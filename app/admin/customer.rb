@@ -1,6 +1,6 @@
 ActiveAdmin.register Customer do
   config.sort_order = 'position_asc'
-  config.paginate = false
+  config.per_page = 1000
 
   permit_params :position, :name, :skin_type, :phone_number, :address, :district, :price,
                 :ship_time, :note, :facebook_id, :facebook_name, :ward, :allergy
@@ -25,11 +25,6 @@ ActiveAdmin.register Customer do
 			end
     end
     send_data csv, type: 'text/csv; header=present', disposition: "attachment; filename=phone_numbers.csv"
-  end
-
-  collection_action :sync_back, method: :post do
-    Sync::FacebookCustomer.new.sync_back
-    redirect_to :back, notice: 'Synced Back to Facebook'
   end
 
   index do
