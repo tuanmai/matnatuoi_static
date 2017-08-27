@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170812062342) do
+ActiveRecord::Schema.define(version: 20170827061927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,6 +185,25 @@ ActiveRecord::Schema.define(version: 20170812062342) do
   end
 
   add_index "products", ["week_id"], name: "index_products_on_week_id", using: :btree
+
+  create_table "statistics", force: :cascade do |t|
+    t.integer  "week_id"
+    t.string   "employee_1_tag"
+    t.string   "employee_1_total_products"
+    t.string   "employee_2_tag"
+    t.string   "employee_2_total_products"
+    t.string   "employee_3_tag"
+    t.string   "employee_3_total_products"
+    t.string   "employee_4_tag"
+    t.string   "employee_4_total_products"
+    t.string   "employee_5_tag"
+    t.string   "employee_5_total_products"
+    t.string   "employee_6_tag"
+    t.string   "employee_6_total_products"
+    t.string   "log"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
