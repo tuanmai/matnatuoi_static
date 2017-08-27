@@ -18,13 +18,18 @@ ActiveAdmin.register Customer do
   end
 
   collection_action :download_all_phonenumber, method: :post do
-    csv = CSV.generate do |csv|
-			csv << ["Name", "Phone"]
+    csv_data = CSV.generate do |csv|
+      csv << ["email", "uid", "ln", "value"]
       Customer.all.each do |customer|
-				csv << [customer.name, customer.phone_number.to_s]
-			end
+        csv << [
+          "#{customer.facebook_id}@facebook.com",
+          customer.facebook_id,
+          customer.name,
+          customer.total_price * 1000,
+        ]
+      end
     end
-    send_data csv, type: 'text/csv; header=present', disposition: "attachment; filename=phone_numbers.csv"
+    send_data csv_data, type: 'text/csv; header=present', disposition: "attachment; filename=phone_numbers.csv"
   end
 
   index do
@@ -52,7 +57,7 @@ ActiveAdmin.register Customer do
     column :district, sortable: :district do |district|
       best_in_place district, :district, as: :textarea, url: [:activeadmin, district]
     end
-    column :price, sortable: false do |price|
+    column :price, sortable: true do |price|
       best_in_place price, :price, as: :textarea, url: [:activeadmin, price]
     end
     column :ship_time, sortable: false do |ship_time|

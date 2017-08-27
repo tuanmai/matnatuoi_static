@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170709052319) do
+ActiveRecord::Schema.define(version: 20170812062342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,12 +55,11 @@ ActiveRecord::Schema.define(version: 20170709052319) do
     t.string   "phone_number"
     t.string   "note"
     t.string   "facebook_url"
-    t.string   "price"
     t.string   "ship_time"
     t.float    "lat"
     t.float    "lng"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "district"
     t.string   "place_url"
     t.string   "skin_type"
@@ -75,6 +74,8 @@ ActiveRecord::Schema.define(version: 20170709052319) do
     t.string   "note_id"
     t.string   "note_body"
     t.text     "note_data"
+    t.string   "price"
+    t.integer  "total_price",   default: 0
   end
 
   create_table "facebook_messages", force: :cascade do |t|
