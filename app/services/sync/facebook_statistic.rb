@@ -49,6 +49,8 @@ module Sync
 
         users_by_employees = employee_tags.map do |_, tag|
           employee_week_label = week_labels.find {|label| label['name'].match(/#{tag}/i) }
+          next unless employee_week_label
+          next unless fb_client(page).get(employee_week_label['id'])['users']
           if employee_week_label
             {
               employee_tag: tag,
