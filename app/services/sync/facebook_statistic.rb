@@ -22,6 +22,23 @@ module Sync
     end
 
     def call
+      data = calculate_total_count
+      statistic.log = data
+      data.each do |employee_tag, values|
+        employee_position_tag = employee_tags.select {|k,v| v == employee_tag}.keys.first
+        employee_position = employee_position_tag[9]
+        statistic.send("employee_#{employee_position}_total_products=",result_as_text(values))
+      end
+      statistic.save
+    end
+
+    def result_as_text(data)
+      total = 0
+      detail = data.slice(*PRODUCT_TAGS.keys).map do |tag, count|
+        total += count
+        "#{count} #{PRODUCT_TAGS[tag]}"
+      end.join(",")
+      "#{detail}. Tổng: #{total}"
     end
 
     def calculate_total_count
