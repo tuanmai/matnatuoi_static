@@ -15,8 +15,11 @@ module Sync
       notes_by_customer = {}
       FacebookPageToken.all.each do |page|
         FbPageApi.admin_notes(parent_id: page.page_id, page_access_token: page.access_token).collection.each do |note|
-          notes_by_customer[note['user']['id']] ||= []
-          notes_by_customer[note['user']['id']] << note
+          begin
+            notes_by_customer[note['user']['id']] ||= []
+            notes_by_customer[note['user']['id']] << note
+          rescue
+          end
         end
       end
       notes_by_customer
