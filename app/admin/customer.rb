@@ -66,6 +66,9 @@ ActiveAdmin.register Customer do
     column :note, sortable: false do |note|
       best_in_place note, :note, as: :textarea, url: [:activeadmin, note]
     end
+    column :conversation_link, sortable: false do |customer|
+      "https://business.facebook.com/matnatuoi.xlci/messages/?threadid=#{customer.facebook_id}"
+    end
   end
 
   csv force_quotes: true do
@@ -78,6 +81,8 @@ ActiveAdmin.register Customer do
     column :ship_time
     column :note
     column :allergy
+    column :conversation_link do |customer|
+      "https://business.facebook.com/matnatuoi.xlci/messages/?threadid=#{customer.facebook_id}"
+    end
   end
-
 end
