@@ -23,12 +23,14 @@ module Sync
 
     def call
       data = calculate_total_count
-      statistic.log = data
+      month_data = calculate_month_data
       data.each do |employee_tag, values|
         employee_position_tag = employee_tags.select {|k,v| v == employee_tag}.keys.first
         employee_position = employee_position_tag[9]
         statistic.send("employee_#{employee_position}_total_products=",result_as_text(values))
       end
+      data[:month] = month_data
+      statistic.log = data
       statistic.save
     end
 
@@ -39,6 +41,24 @@ module Sync
         "#{count} #{PRODUCT_TAGS[tag]}"
       end.join(",")
       "#{detail}. Tổng: #{total}"
+    end
+
+    def calculate_month_data
+      result = {}
+      FacebookPageToken.all.map do |page|
+        FbPageApi.admin_notes(parent_id: page.page_id, page_access_token: page.access_token).collection.each do |note|
+          employee_tags.map do |_, employee|
+            employee_tag = employee.match(/[a-zA-Z]+/).to_s[0..1]
+            month_regex = /(start|Start)( )*(\(( )*(#{employee_tag})( )*\))( )*-( )*#{week.order_label}( )*-( )*\d/i
+            month_note = note['body'].match(month_regex).to_s
+            next unless month_note
+            count = month_note.last.to_i
+            result[employee] ||= 0
+            result[employee] += count
+          end
+        end
+      end
+      result
     end
 
     def calculate_total_count
