@@ -13,20 +13,29 @@ ActiveAdmin.register Customer do
   filter :address
   filter :district
 
-  action_item :download_all_phonenumber do
-    link_to 'Download phone', download_all_phonenumber_activeadmin_customers_path, method: :post
+  action_item :download_all do
+    link_to 'Download phone', download_all_activeadmin_customers_path, method: :post
   end
 
-  collection_action :download_all_phonenumber, method: :post do
+  collection_action :download_all, method: :post do
     csv_data = CSV.generate do |csv|
-      csv << ["email", "uid", "ln", "value"]
-      Customer.all.each do |customer|
-        csv << [
-          "#{customer.facebook_id}@facebook.com",
-          customer.facebook_id,
+      csv << %w(name, phone_number, address, ward, district, price, ship_time, note, allergy, conversation_link)
+      Customer.all.joins(:weeks).includes(:weeks).each do |customer|
+        data = [
           customer.name,
-          customer.total_price * 1000,
+          customer.phone_number,
+          customer.address,
+          customer.ward,
+          customer.district,
+          customer.price,
+          customer.ship_time,
+          customer.note,
+          customer.allergy,
+          "https://business.facebook.com/matnatuoi.xlci/messages/?threadid=#{customer.facebook_id}",
+          customer.created_at.strftime("%m/%d/%Y"),
+          customer.weeks.count
         ]
+        csv << data
       end
     end
     send_data csv_data, type: 'text/csv; header=present', disposition: "attachment; filename=phone_numbers.csv"
