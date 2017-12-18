@@ -23,7 +23,7 @@ ActiveAdmin.register Customer do
       Customer.all.joins(:weeks).includes(:weeks).each do |customer|
         data = [
           customer.name,
-          "0#{customer.phone_number}",
+          "#{customer.phone_number} ",
           customer.address,
         ]
         csv << data
