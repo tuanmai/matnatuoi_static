@@ -19,12 +19,12 @@ ActiveAdmin.register Customer do
 
   collection_action :download_all, method: :post do
     csv_data = CSV.generate do |csv|
-      csv << %w(Name, Phone, Address)
+      csv << %w(name, uid, value)
       Customer.all.joins(:weeks).includes(:weeks).each do |customer|
         data = [
           customer.name,
-          "#{customer.phone_number} ",
-          customer.address,
+          customer.facebook_id,
+          customer.weeks.count * 100000,
         ]
         csv << data
       end
