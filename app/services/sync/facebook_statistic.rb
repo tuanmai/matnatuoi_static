@@ -48,7 +48,7 @@ module Sync
       FacebookPageToken.all.map do |page|
         FbPageApi.admin_notes(parent_id: page.page_id, page_access_token: page.access_token).collection.each do |note|
           employee_tags.map do |_, employee|
-            employee_tag = employee.match(/[a-zA-Z]+/).to_s[0..1]
+            employee_tag = employee.match(/[a-zA-Z]+/).to_s
             month_regex = /(start|Start)( )*(\(( )*(#{employee_tag})( )*\))( )*-( )*#{week.order_label}( )*-( )*\d/i
             month_note = note['body'].match(month_regex).to_s
             next unless month_note
