@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   mount Monologue::Engine, at: '/blog'
 
   resource :facebook_webhook
+  namespace :api do
+    resources :customers, only: [:show]
+  end
 
   namespace :admin do
     resources :customers do
