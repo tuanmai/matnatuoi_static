@@ -11,7 +11,7 @@ module Sync
     end
 
     def get_order_users
-      FacebookPageToken.all.map do |page|
+      FacebookPageToken.order(id: :asc).all.map do |page|
         if find_week_label(page.page_id)
           p find_week_label(page.page_id)
           p @find_week_label
