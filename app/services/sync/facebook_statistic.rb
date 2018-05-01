@@ -118,7 +118,11 @@ module Sync
 
     def employee_tags
       statistic.attributes.with_indifferent_access.slice(:employee_1_tag, :employee_2_tag, :employee_3_tag,
-                                                         :employee_4_tag, :employee_5_tag, :employee_6_tag).compact
+                                                         :employee_4_tag, :employee_5_tag, :employee_6_tag,
+                                                         :employee_15_tag, :employee_7_tag, :employee_8_tag,
+                                                         :employee_9_tag, :employee_10_tag, :employee_11_tag,
+                                                         :employee_12_tag, :employee_13_tag, :employee_14_tag
+                                                        ).compact
     end
   end
 end
