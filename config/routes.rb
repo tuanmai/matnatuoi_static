@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -16,6 +18,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    mount Sidekiq::Web, at: '/sidekiq'
+    
     resources :customers do
       collection do
         get :autocomplete
