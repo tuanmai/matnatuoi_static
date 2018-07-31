@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170827061927) do
+ActiveRecord::Schema.define(version: 20180501072415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170827061927) do
     t.string   "phone_number"
     t.string   "note"
     t.string   "facebook_url"
+    t.string   "price"
     t.string   "ship_time"
     t.float    "lat"
     t.float    "lng"
@@ -74,8 +75,8 @@ ActiveRecord::Schema.define(version: 20170827061927) do
     t.string   "note_id"
     t.string   "note_body"
     t.text     "note_data"
-    t.string   "price"
     t.integer  "total_price",   default: 0
+    t.string   "page_id"
   end
 
   create_table "facebook_messages", force: :cascade do |t|
@@ -161,6 +162,8 @@ ActiveRecord::Schema.define(version: 20170827061927) do
     t.boolean  "active",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "total"
+    t.string   "product"
   end
 
   create_table "orders_weeks", id: false, force: :cascade do |t|
@@ -201,8 +204,26 @@ ActiveRecord::Schema.define(version: 20170827061927) do
     t.string   "employee_6_tag"
     t.string   "employee_6_total_products"
     t.string   "log"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "employee_7_tag"
+    t.string   "employee_7_total_products"
+    t.string   "employee_8_tag"
+    t.string   "employee_8_total_products"
+    t.string   "employee_9_tag"
+    t.string   "employee_9_total_products"
+    t.string   "employee_10_tag"
+    t.string   "employee_10_total_products"
+    t.string   "employee_11_tag"
+    t.string   "employee_11_total_products"
+    t.string   "employee_12_tag"
+    t.string   "employee_12_total_products"
+    t.string   "employee_13_tag"
+    t.string   "employee_13_total_products"
+    t.string   "employee_14_tag"
+    t.string   "employee_14_total_products"
+    t.string   "employee_15_tag"
+    t.string   "employee_15_total_products"
   end
 
   create_table "users", force: :cascade do |t|
